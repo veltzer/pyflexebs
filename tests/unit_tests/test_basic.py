@@ -2,5 +2,5 @@ import unittest
 
 
 class TestBasic(unittest.TestCase):
-    def testHello(self):
+    def test_hello(self):
         pass

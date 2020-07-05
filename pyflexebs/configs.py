@@ -8,7 +8,7 @@ from pytconf.config import Config, ParamCreator
 
 class ConfigInterval(Config):
     """
-    Parameters for interval monitoris
+    Parameters for interval monitors
     """
     filenames = ParamCreator.create_int(
     )
