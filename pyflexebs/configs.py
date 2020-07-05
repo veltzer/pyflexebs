@@ -10,5 +10,8 @@ class ConfigInterval(Config):
     """
     Parameters for interval monitors
     """
-    filenames = ParamCreator.create_int(
+    interval = ParamCreator.create_int(
+        default=20,
+        help_string="interval to monitor",
     )
+
