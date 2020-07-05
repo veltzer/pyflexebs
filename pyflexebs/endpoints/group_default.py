@@ -43,5 +43,5 @@ def daemon() -> None:
     """
     logger = logging.getLogger(__name__)
     while True:
-        time.sleep(ConfigInterval.interval)
         logger.info("checking disk utilization")
+        time.sleep(ConfigInterval.interval)
