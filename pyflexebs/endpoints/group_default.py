@@ -36,6 +36,7 @@ def version() -> None:
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
+    configs=[ConfigInterval],
 )
 def daemon() -> None:
     """
