@@ -4,11 +4,12 @@ The default group of operations that pyflexebs has
 import logging
 import time
 
+import psutil as psutil
 from pytconf.config import register_endpoint, register_function_group
 
 import pyflexebs
 import pyflexebs.version
-from pyflexebs.configs import ConfigInterval
+from pyflexebs.configs import ConfigAlgo
 
 GROUP_NAME_DEFAULT = "default"
 GROUP_DESCRIPTION_DEFAULT = "all pyflexebs commands"
@@ -36,7 +37,7 @@ def version() -> None:
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
-    configs=[ConfigInterval],
+    configs=[ConfigAlgo],
 )
 def daemon() -> None:
     """
@@ -45,4 +46,15 @@ def daemon() -> None:
     logger = logging.getLogger(__name__)
     while True:
         logger.info("checking disk utilization")
-        time.sleep(ConfigInterval.interval)
+        for p in psutil.disk_partitions():
+            if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
+                logger.info("max watermark detected at disk {} mountpoint {}".format(
+                    p.device,
+                    p.mountpoint,
+                ))
+            if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
+                logger.info("min watermark detected at disk {} mountpoint {}".format(
+                    p.device,
+                    p.mountpoint,
+                ))
+        time.sleep(ConfigAlgo.interval)

@@ -12,6 +12,7 @@ setup_requires = [
 run_requires = [
     'pytconf',  # for command line parsing
     'pylogconf',  # for logging configuration
+    'psutil',  # for partition information
 ]
 
 test_requires = [
