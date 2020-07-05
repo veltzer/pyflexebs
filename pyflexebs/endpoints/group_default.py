@@ -47,6 +47,10 @@ def daemon() -> None:
     while True:
         logger.info("checking disk utilization")
         for p in psutil.disk_partitions():
+            logger.info("checking {} {}".format(
+                p.device,
+                p.mountpoint,
+            ))
             if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
                 logger.info("max watermark detected at disk {} mountpoint {}".format(
                     p.device,
