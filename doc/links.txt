@@ -1,0 +1,5 @@
+https://github.com/g2p/blocks
+	tool to convert non lvm volumes to lvm
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/modify-volume-requirements.html
+	"After modifying a volume, wait at least six hours and ensure that the volume is in the in-use or available state before making additional modifications to the same volume."
+https://superuser.com/questions/493481/fastest-way-to-convert-an-ext4-formatted-disk-to-lvm-with-ext4-on-it
