@@ -3,7 +3,6 @@ The default group of operations that pyflexebs has
 """
 import logging
 import time
-from pprint import pprint
 
 import boto3
 import ec2_metadata
@@ -108,4 +107,11 @@ def print_volumes() -> None:
     print("instance is [{}]".format(instance_id))
     volumes = instance.volumes.all()
     for v in volumes:
-        pprint(vars(v))
+        dump(v)
+
+
+def dump(obj):
+    for attr in dir(obj):
+        if attr.startswith("__"):
+            continue
+        print("obj.%s = %r" % (attr, getattr(obj, attr)))
