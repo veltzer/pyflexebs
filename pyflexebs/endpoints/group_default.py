@@ -113,14 +113,14 @@ def enlarge_volume(p, device_to_volume, ec2):
     print("trying to increase size to [{}]".format(new_size))
     # noinspection PyBroadException
     try:
-        ec2.modify_volume(
-            DryRun=True,
+        result = ec2.modify_volume(
+            DryRun=ConfigAlgo.dryrun,
             VolumeId=volume_id,
             Size=new_size,
         )
-        print("Success in increasing size")
-    except:
-        print("Failure in increasing size")
+        print("Success in increasing size [{}]".format(result))
+    except Exception as e:
+        print("Failure in increasing size [{}]".format(e))
 
 
 @register_endpoint(

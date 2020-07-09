@@ -34,6 +34,10 @@ class ConfigAlgo(Config):
         default=50,
         help_string="By how much to increase (in percentiles)",
     )
+    dryrun = ParamCreator.create_bool(
+        default=False,
+        help_string="Should we dry run the actual operations?",
+    )
 
 
 class ConfigProxy(Config):
