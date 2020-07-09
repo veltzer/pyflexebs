@@ -50,14 +50,15 @@ def daemon() -> None:
     configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     instance_id = metadata.instance_id
-    ec2 = boto3.resource('ec2', region_name=metadata.region)
-    instance = ec2.Instance(instance_id)
+    ec2_resource = boto3.resource('ec2', region_name=metadata.region)
+    instance = ec2_resource.Instance(instance_id)
     volumes = instance.volumes.all()
     device_to_volume = dict()
     for volume in volumes:
         for a in volume.attachments:
             device = normalize_device(a["Device"])
             device_to_volume[device] = volume
+    ec2_client = boto3.client('ec2')
 
     logger = logging.getLogger(__name__)
     while True:
@@ -78,7 +79,7 @@ def daemon() -> None:
                         p.device,
                         p.mountpoint,
                     ))
-                    enlarge_volume(p, device_to_volume, ec2)
+                    enlarge_volume(p, device_to_volume, ec2_client)
             if ConfigAlgo.watermark_min is not None:
                 if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
                     logger.info("min watermark detected at disk {} mountpoint {}".format(
