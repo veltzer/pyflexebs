@@ -72,17 +72,19 @@ def daemon() -> None:
                 p.mountpoint,
                 p.fstype,
             ))
-            if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
-                logger.info("max watermark detected at disk {} mountpoint {}".format(
-                    p.device,
-                    p.mountpoint,
-                ))
-                enlarge_volume(p, device_to_volume, ec2)
-            if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
-                logger.info("min watermark detected at disk {} mountpoint {}".format(
-                    p.device,
-                    p.mountpoint,
-                ))
+            if ConfigAlgo.watermark_max is not None:
+                if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
+                    logger.info("max watermark detected at disk {} mountpoint {}".format(
+                        p.device,
+                        p.mountpoint,
+                    ))
+                    enlarge_volume(p, device_to_volume, ec2)
+            if ConfigAlgo.watermark_min is not None:
+                if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
+                    logger.info("min watermark detected at disk {} mountpoint {}".format(
+                        p.device,
+                        p.mountpoint,
+                    ))
         time.sleep(ConfigAlgo.interval)
 
 

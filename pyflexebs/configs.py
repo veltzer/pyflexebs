@@ -14,12 +14,12 @@ class ConfigAlgo(Config):
         default=20,
         help_string="interval to monitor",
     )
-    watermark_max = ParamCreator.create_int(
+    watermark_max = ParamCreator.create_int_or_none(
         default=70,
         help_string="max watermark for disk utilization",
     )
-    watermark_min = ParamCreator.create_int(
-        default=20,
+    watermark_min = ParamCreator.create_int_or_none(
+        default=None,
         help_string="min watermark for disk utilization",
     )
     disregard = ParamCreator.create_list_str(
