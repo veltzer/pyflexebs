@@ -1,2 +1,5 @@
 - daemon work
-- extensions and resize fs.
+- resize fs.
+- do radical stuff like turn partitions to lvm.
+- add documentation in the main file.
+- add support for config file to pytconf.
