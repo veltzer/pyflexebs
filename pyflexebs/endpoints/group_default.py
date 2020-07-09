@@ -3,6 +3,7 @@ The default group of operations that pyflexebs has
 """
 import logging
 import time
+from pprint import pprint
 
 import boto3
 import ec2_metadata
@@ -94,12 +95,17 @@ def print_volumes() -> None:
     Print volume information
     """
     metadata = ec2_metadata.ec2_metadata
+    # check that we have attached an IAM role to the machine
+    # we need this for credentials
+    if metadata.iam_info is None:
+        print("No IAM role attached to instance. Please fix instance configuration.")
+        return
+    print("Found iam_info, good...")
     instance_id = metadata.instance_id
-    # session = boto3.session.Session(region_name=metadata.region)
     session = boto3.session.Session(region_name=metadata.region)
     ec2 = session.resource('ec2')
     instance = ec2.Instance(instance_id)
     print("instance is [{}]".format(instance_id))
     volumes = instance.volumes.all()
     for v in volumes:
-        print(dir(v))
+        pprint(v)
