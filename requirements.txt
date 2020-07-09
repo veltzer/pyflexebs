@@ -6,6 +6,7 @@ psutil
 boto3
 boto3-stubs
 pyfakeuse
+ec2-metadata
 # dev requirements
 pyclassifiers
 pypitools

@@ -26,4 +26,8 @@ class ConfigAlgo(Config):
         default="/",
         help_string="what mount points to disregard",
     )
+    file_systems = ParamCreator.create_list_str(
+        default="ext4",
+        help_string="what file systems to check",
+    )
 

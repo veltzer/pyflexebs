@@ -16,6 +16,7 @@ run_requires = [
     'boto3',  # for aws API
     'boto3-stubs',  # for aws API
     'pyfakeuse',  # for fake use
+    'ec2-metadata',  # for metadata
 ]
 
 test_requires = [
