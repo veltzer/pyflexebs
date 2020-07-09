@@ -2,6 +2,7 @@
 The default group of operations that pyflexebs has
 """
 import logging
+import os
 import time
 
 import boto3
@@ -13,7 +14,7 @@ from pytconf.config import register_endpoint, register_function_group
 
 import pyflexebs
 import pyflexebs.version
-from pyflexebs.configs import ConfigAlgo
+from pyflexebs.configs import ConfigAlgo, ConfigProxy
 
 GROUP_NAME_DEFAULT = "default"
 GROUP_DESCRIPTION_DEFAULT = "all pyflexebs commands"
@@ -41,12 +42,13 @@ def version() -> None:
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
-    configs=[ConfigAlgo],
+    configs=[ConfigAlgo, ConfigProxy],
 )
 def daemon() -> None:
     """
     Run daemon and monitor disk utilization
     """
+    configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     instance_id = metadata.instance_id
     ec2 = boto3.resource('ec2', region_name=metadata.region)
@@ -88,12 +90,13 @@ def enlarge_volume(metadata, p, volumes):
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
-    configs=[ConfigAlgo],
+    configs=[ConfigAlgo, ConfigProxy],
 )
 def print_volumes() -> None:
     """
     Print volume information
     """
+    configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     # check that we have attached an IAM role to the machine
     # we need this for credentials
@@ -130,11 +133,13 @@ def create_pylogconf() -> None:
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
+    configs=[ConfigProxy],
 )
 def show_policies() -> None:
     """
     Show policies that are configured for your role
     """
+    configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     # check that we have attached an IAM role to the machine
     # we need this for credentials
@@ -143,7 +148,7 @@ def show_policies() -> None:
         return
     print("Found iam_info, good...")
     print("found [{}]".format(metadata.iam_info))
-    iam = boto3.client('iam', region_name=metadata.region)
+    iam = boto3.resource('iam', region_name=metadata.region)
     instance_profile_arn = metadata.iam_info["InstanceProfileArn"]
     print("instance_profile_arn [{}]".format(instance_profile_arn))
     name = instance_profile_arn.split("/")[1]
@@ -151,3 +156,15 @@ def show_policies() -> None:
     policy_list = iam.list_attached_role_policies(RoleName=name)
     for policy in policy_list:
         print(policy)
+
+
+def configure_proxy():
+    if ConfigProxy.http_proxy is not None:
+        os.environ['http_proxy'] = ConfigProxy.http_proxy
+        os.environ['HTTP_PROXY'] = ConfigProxy.http_proxy
+    if ConfigProxy.https_proxy is not None:
+        os.environ['https_proxy'] = ConfigProxy.https_proxy
+        os.environ['HTTPS_PROXY'] = ConfigProxy.https_proxy
+    if ConfigProxy.no_proxy is not None:
+        os.environ['no_proxy'] = ConfigProxy.no_proxy
+        os.environ['NO_PROXY'] = ConfigProxy.no_proxy
