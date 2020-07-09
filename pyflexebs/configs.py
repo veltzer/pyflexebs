@@ -27,7 +27,7 @@ class ConfigAlgo(Config):
         help_string="what mount points to disregard",
     )
     file_systems = ParamCreator.create_list_str(
-        default="ext4",
+        default="ext4,xfs",
         help_string="what file systems to check",
     )
     increase_percent = ParamCreator.create_int(
