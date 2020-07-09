@@ -126,3 +126,20 @@ def create_pylogconf() -> None:
     create a pylogconf configuration file
     """
     create_pylogconf_file()
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+)
+def show_policies() -> None:
+    """
+    Show policies that are configured for your role
+    """
+    metadata = ec2_metadata.ec2_metadata
+    # check that we have attached an IAM role to the machine
+    # we need this for credentials
+    if metadata.iam_info is None:
+        print("No IAM role attached to instance. Please fix instance configuration.")
+        return
+    print("Found iam_info, good...")
+    print("found [{}]".format(metadata.iam_info))
