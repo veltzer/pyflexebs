@@ -3,6 +3,9 @@
 pytconf
 pylogconf
 psutil
+boto3
+boto3-stubs
+pyfakeuse
 # dev requirements
 pyclassifiers
 pypitools

@@ -13,6 +13,9 @@ run_requires = [
     'pytconf',  # for command line parsing
     'pylogconf',  # for logging configuration
     'psutil',  # for partition information
+    'boto3',  # for aws API
+    'boto3-stubs',  # for aws API
+    'pyfakeuse',  # for fake use
 ]
 
 test_requires = [

@@ -5,6 +5,7 @@ import logging
 import time
 
 import psutil as psutil
+from pyfakeuse.pyfakeuse import fake_use
 from pytconf.config import register_endpoint, register_function_group
 
 import pyflexebs
@@ -47,6 +48,8 @@ def daemon() -> None:
     while True:
         logger.info("checking disk utilization")
         for p in psutil.disk_partitions():
+            if p.mountpoint in ConfigAlgo.disregard:
+                continue
             logger.info("checking {} {}".format(
                 p.device,
                 p.mountpoint,
@@ -56,9 +59,14 @@ def daemon() -> None:
                     p.device,
                     p.mountpoint,
                 ))
+                enlarge_volume(p)
             if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
                 logger.info("min watermark detected at disk {} mountpoint {}".format(
                     p.device,
                     p.mountpoint,
                 ))
         time.sleep(ConfigAlgo.interval)
+
+
+def enlarge_volume(p):
+    fake_use(p)
