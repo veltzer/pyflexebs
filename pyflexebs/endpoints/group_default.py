@@ -8,6 +8,7 @@ import boto3
 import ec2_metadata
 import psutil as psutil
 from pyfakeuse.pyfakeuse import fake_use
+from pylogconf.core import create_pylogconf_file
 from pytconf.config import register_endpoint, register_function_group
 
 import pyflexebs
@@ -115,3 +116,13 @@ def dump(obj):
         if attr.startswith("__"):
             continue
         print("obj.%s = %r" % (attr, getattr(obj, attr)))
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+)
+def create_pylogconf() -> None:
+    """
+    create a pylogconf configuration file
+    """
+    create_pylogconf_file()
