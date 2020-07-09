@@ -95,8 +95,9 @@ def print_volumes() -> None:
     """
     metadata = ec2_metadata.ec2_metadata
     instance_id = metadata.instance_id
-    ec2 = boto3.resource('ec2')
+    ec2 = boto3.resource('ec2', region_name=metadata.region)
     instance = ec2.Instance(instance_id)
+    print("instance is [{}]".format(instance_id))
     volumes = instance.volumes.all()
     for v in volumes:
         print(dir(v))
