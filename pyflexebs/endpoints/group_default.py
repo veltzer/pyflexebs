@@ -4,7 +4,6 @@ The default group of operations that pyflexebs has
 import logging
 import os
 import time
-from pprint import pprint
 
 import boto3
 import ec2_metadata
@@ -156,9 +155,12 @@ def show_policies() -> None:
     session = boto3.session.Session(region_name=metadata.region)
     iam = session.client('iam')
     policy_list = iam.list_attached_role_policies(RoleName=name)
-    pprint(policy_list)
-    # for policy in policy_list.AttachedPolicies:
-    #    print(policy)
+    # pprint(policy_list)
+    for policy in policy_list["AttachedPolicies"]:
+        policy_name = policy["PolicyName"]
+        policy_arn = policy["PolicyArn"]
+        print("policy_name: [{}]".format(policy_name))
+        print("policy_arn: [{}]".format(policy_arn))
 
 
 def configure_proxy():
