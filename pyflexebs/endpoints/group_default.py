@@ -148,11 +148,12 @@ def show_policies() -> None:
         return
     print("Found iam_info, good...")
     print("found [{}]".format(metadata.iam_info))
-    iam = boto3.resource('iam', region_name=metadata.region)
     instance_profile_arn = metadata.iam_info["InstanceProfileArn"]
     print("instance_profile_arn [{}]".format(instance_profile_arn))
     name = instance_profile_arn.split("/")[1]
     print("name [{}]".format(name))
+    session = boto3.session.Session(region_name=metadata.region)
+    iam = session.resource('iam')
     policy_list = iam.list_attached_role_policies(RoleName=name)
     for policy in policy_list:
         print(policy)
