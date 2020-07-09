@@ -155,7 +155,7 @@ def show_policies() -> None:
     session = boto3.session.Session(region_name=metadata.region)
     iam = session.client('iam')
     policy_list = iam.list_attached_role_policies(RoleName=name)
-    for policy in policy_list:
+    for policy in policy_list.AttachedPolicies:
         print(policy)
 
 
