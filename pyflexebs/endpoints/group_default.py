@@ -8,7 +8,6 @@ import time
 import boto3
 import ec2_metadata
 import psutil as psutil
-from pyfakeuse.pyfakeuse import fake_use
 from pylogconf.core import create_pylogconf_file
 from pytconf.config import register_endpoint, register_function_group
 
@@ -54,6 +53,11 @@ def daemon() -> None:
     ec2 = boto3.resource('ec2', region_name=metadata.region)
     instance = ec2.Instance(instance_id)
     volumes = instance.volumes.all()
+    device_to_volume = dict()
+    for volume in volumes:
+        for a in volume.attachments:
+            device = normalize_device(a["Device"])
+            device_to_volume[device] = volume
 
     logger = logging.getLogger(__name__)
     while True:
@@ -73,7 +77,7 @@ def daemon() -> None:
                     p.device,
                     p.mountpoint,
                 ))
-                enlarge_volume(metadata, p, volumes)
+                enlarge_volume(p, device_to_volume, ec2)
             if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
                 logger.info("min watermark detected at disk {} mountpoint {}".format(
                     p.device,
@@ -82,10 +86,39 @@ def daemon() -> None:
         time.sleep(ConfigAlgo.interval)
 
 
-def enlarge_volume(metadata, p, volumes):
-    fake_use(metadata)
-    fake_use(p)
-    fake_use(volumes)
+def normalize_device(dev: str) -> str:
+    """
+    turns /dev/sdb to /dev/xvdb (if needed)
+    """
+    last_part = dev.split("/")[2]
+    if last_part.startswith("sd"):
+        drive = last_part[2:]
+        return "/dev/xvd{}".format(drive)
+    return dev
+
+
+def enlarge_volume(p, device_to_volume, ec2):
+    if p.device not in device_to_volume:
+        print("Cannot find device [{}]. Not resizing".format(p.device))
+        return
+    volume = device_to_volume[p.device]
+    volume_id = volume.id
+    volume_size = volume.size
+    volume_size_float = float(volume_size)
+    volume_size_float /= 100
+    volume_size_float *= (100+ConfigAlgo.increase_percent)
+    new_size = int(volume_size_float)
+    print("trying to increase size to [{}]".format(new_size))
+    # noinspection PyBroadException
+    try:
+        ec2.modify_volume(
+            DryRun=True,
+            VolumeId=volume_id,
+            Size=new_size,
+        )
+        print("Success in increasing size")
+    except:
+        print("Failure in increasing size")
 
 
 @register_endpoint(
