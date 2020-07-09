@@ -19,7 +19,7 @@ def register_all_groups():
 @register_main()
 def main():
     """
-    pyflexebs will help you write makefiles
+    pyflexebs will enlarge/reduce your ebs volumes in real time
     """
     pylogconf.core.setup()
     register_all_groups()
