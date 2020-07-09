@@ -31,7 +31,7 @@ class ConfigAlgo(Config):
         help_string="what file systems to check",
     )
     increase_percent = ParamCreator.create_int(
-        default="50",
+        default=50,
         help_string="By how much to increase (in percentiles)",
     )
 
