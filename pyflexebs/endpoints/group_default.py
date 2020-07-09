@@ -108,4 +108,4 @@ def print_volumes() -> None:
     print("instance is [{}]".format(instance_id))
     volumes = instance.volumes.all()
     for v in volumes:
-        pprint(v)
+        pprint(vars(v))
