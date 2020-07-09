@@ -153,7 +153,7 @@ def show_policies() -> None:
     name = instance_profile_arn.split("/")[1]
     print("name [{}]".format(name))
     session = boto3.session.Session(region_name=metadata.region)
-    iam = session.resource('iam')
+    iam = session.client('iam')
     policy_list = iam.list_attached_role_policies(RoleName=name)
     for policy in policy_list:
         print(policy)
