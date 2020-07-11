@@ -1,0 +1,40 @@
+AWS Cloud Former
+	advantages:
+		Well defined service
+	disadvantages:
+		creates a cloud formation stack which is not good
+		since it is hard to parse
+
+AWS Config:
+	advantages:
+		Can Be used as API
+	disadvantages:
+		Need a little coding.
+
+https://pypi.org/project/aws-list-all/
+	advantages:
+		open source, python
+		generates json files
+	disadvantages:
+		haven't tried it before so can't vouch for it.
+
+Drift Detection with Cloud Formation
+	https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/detect-drift-stack.html
+	https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DetectStackDrift.html
+	advantages:
+		can be used as API
+		can be used to validate that the formations you got from core or from top orchestrator
+		were not tampered with.
+	disadvantages:
+		need to be applied for each stack.
+		need a little bit of programming.
+		only detects drift. Need to be used in conjuncture with other tools.
+
+APIs
+Describe VPCs https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html
+List Discoverd Resources https://docs.aws.amazon.com/cli/latest/reference/configservice/list-discovered-resources.html
+	advantages:
+		well defined APIs that will not go away.
+	disadvatnages:
+		need a little bit of coding.
+	
