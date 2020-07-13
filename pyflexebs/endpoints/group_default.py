@@ -3,6 +3,7 @@ The default group of operations that pyflexebs has
 """
 import logging
 import os
+import sys
 import time
 
 import boto3
@@ -218,5 +219,10 @@ def check_tools():
     """
     Check that the command line tools we need are available
     """
-    assert pypathutil.common.find_in_standard_path("xfs_growfs") is not None
-    assert pypathutil.common.find_in_standard_path("resize2fs") is not None
+    problems = False
+    for app in ["xfs_growfs", "resize2fs"]:
+        if pypathutil.common.find_in_standard_path(app) is None:
+            problems = True
+            print("please install executable [{}]".format(app))
+    if problems:
+        sys.exit(1)
