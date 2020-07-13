@@ -9,7 +9,7 @@ def get_readme():
 setuptools.setup(
     # the first three fields are a must according to the documentation
     name="pyflexebs",
-    version="0.0.33",
+    version="0.0.34",
     packages=[
         'pyflexebs',
         'pyflexebs.endpoints',
@@ -40,6 +40,7 @@ setuptools.setup(
         'boto3-stubs',
         'pyfakeuse',
         'ec2-metadata',
+        'pypathutil',
     ],
     extras_require={
     },

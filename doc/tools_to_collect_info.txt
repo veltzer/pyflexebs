@@ -32,9 +32,9 @@ Drift Detection with Cloud Formation
 
 APIs
 Describe VPCs https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html
-List Discoverd Resources https://docs.aws.amazon.com/cli/latest/reference/configservice/list-discovered-resources.html
+List Discovered Resources https://docs.aws.amazon.com/cli/latest/reference/configservice/list-discovered-resources.html
 	advantages:
 		well defined APIs that will not go away.
-	disadvatnages:
+	disadvantages:
 		need a little bit of coding.
 	

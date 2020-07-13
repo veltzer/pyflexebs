@@ -15,6 +15,8 @@ import pyflexebs
 import pyflexebs.version
 from pyflexebs.configs import ConfigAlgo, ConfigProxy
 
+import pypathutil.common
+
 GROUP_NAME_DEFAULT = "default"
 GROUP_DESCRIPTION_DEFAULT = "all pyflexebs commands"
 
@@ -48,6 +50,7 @@ def daemon() -> None:
     Run daemon and monitor disk utilization
     """
     configure_proxy()
+    check_tools()
     metadata = ec2_metadata.ec2_metadata
     instance_id = metadata.instance_id
     ec2_resource = boto3.resource('ec2', region_name=metadata.region)
@@ -209,3 +212,11 @@ def configure_proxy():
     if ConfigProxy.no_proxy is not None:
         os.environ['no_proxy'] = ConfigProxy.no_proxy
         os.environ['NO_PROXY'] = ConfigProxy.no_proxy
+
+
+def check_tools():
+    """
+    Check that the command line tools we need are available
+    """
+    assert pypathutil.common.find_in_standard_path("xfs_growfs") is not None
+    assert pypathutil.common.find_in_standard_path("resize2fs") is not None
