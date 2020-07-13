@@ -62,7 +62,7 @@ def daemon() -> None:
         for a in volume.attachments:
             device = normalize_device(a["Device"])
             device_to_volume[device] = volume
-    ec2_client = boto3.client('ec2')
+    ec2_client = boto3.client('ec2', region_name=metadata.region)
 
     logger = logging.getLogger(__name__)
     while True:

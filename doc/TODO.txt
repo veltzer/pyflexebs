@@ -1,3 +1,6 @@
+- check that I have root permissions at start.
+- give out better message about missing tools referring to path.
+- allow to package the entire tools as one file.
 - daemon work
 - resize fs.
 - do radical stuff like turn partitions to lvm.
