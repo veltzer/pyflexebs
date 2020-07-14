@@ -83,12 +83,22 @@ def daemon() -> None:
                         p.device,
                         p.mountpoint,
                     ))
+                    logger.info("percent is {}, total is {}, used is {}".format(
+                        psutil.disk_usage(p.mountpoint).percent,
+                        psutil.disk_usage(p.mountpoint).total,
+                        psutil.disk_usage(p.mountpoint).used,
+                    ))
                     enlarge_volume(p, device_to_volume, ec2_client)
             if ConfigAlgo.watermark_min is not None:
                 if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
                     logger.info("min watermark detected at disk {} mountpoint {}".format(
                         p.device,
                         p.mountpoint,
+                    ))
+                    logger.info("percent is {}, total is {}, used is {}".format(
+                        psutil.disk_usage(p.mountpoint).percent,
+                        psutil.disk_usage(p.mountpoint).total,
+                        psutil.disk_usage(p.mountpoint).used,
                     ))
         time.sleep(ConfigAlgo.interval)
 
@@ -110,22 +120,29 @@ def enlarge_volume(p, device_to_volume, ec2):
         return
     volume = device_to_volume[p.device]
     volume_id = volume.id
-    volume_size = volume.size
+    # volume_size = volume.size
+    volume_size = psutil.disk_usage(p.mountpoint).total
     volume_size_float = float(volume_size)
     volume_size_float /= 100
     volume_size_float *= (100+ConfigAlgo.increase_percent)
     new_size = int(volume_size_float)
-    print("trying to increase size to [{}]".format(new_size))
-    # noinspection PyBroadException
-    try:
-        result = ec2.modify_volume(
-            DryRun=ConfigAlgo.dryrun,
-            VolumeId=volume_id,
-            Size=new_size,
-        )
-        print("Success in increasing size [{}]".format(result))
-    except Exception as e:
-        print("Failure in increasing size [{}]".format(e))
+    if volume.size < new_size:
+        print("trying to increase size to [{}]".format(new_size))
+        # noinspection PyBroadException
+        try:
+            result = ec2.modify_volume(
+                DryRun=ConfigAlgo.dryrun,
+                VolumeId=volume_id,
+                Size=new_size,
+            )
+            print("Success in increasing size [{}]".format(result))
+        except Exception as e:
+            print("Failure in increasing size [{}]".format(e))
+    # resize the file system
+    if p.fstype == "ext4":
+
+    if p.fstype == "xfs":
+        pass
 
 
 @register_endpoint(
