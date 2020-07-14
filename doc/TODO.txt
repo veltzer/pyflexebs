@@ -1,3 +1,10 @@
+- all print change to logging
+- make logging to system logger the default
+- add lots of more documentation in the README file.
+- remove debugging.
+- currently remove support for reducing.
+- package with dependencies.
+
 - check that I have root permissions at start.
 - give out better message about missing tools referring to path.
 - allow to package the entire tools as one file.
