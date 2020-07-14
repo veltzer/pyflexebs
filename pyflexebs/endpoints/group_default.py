@@ -123,6 +123,8 @@ def enlarge_volume(p, device_to_volume, ec2):
     volume_id = volume.id
     # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
+    print("total is [{}]".format(volume_size))
+    print("type(total) is [{}]".format(type(volume_size)))
     volume_size_float = float(volume_size)
     volume_size_float /= 100
     volume_size_float *= (100+ConfigAlgo.increase_percent)
@@ -142,17 +144,18 @@ def enlarge_volume(p, device_to_volume, ec2):
     # resize the file system
     print("doing [{}] extension", format(p.fstype))
     if p.fstype == "ext4":
-        subprocess.check_call([
-            "resize2fs",
-            p.device,
-        ])
+        if not ConfigAlgo.dryrun:
+            subprocess.check_call([
+                "resize2fs",
+                p.device,
+            ])
     if p.fstype == "xfs":
-        print("doing ext4 extension")
-        subprocess.check_call([
-            "xfs_growfs",
-            "-d",
-            p.mountpoint,
-        ])
+        if not ConfigAlgo.dryrun:
+            subprocess.check_call([
+                "xfs_growfs",
+                "-d",
+                p.mountpoint,
+            ])
 
 
 @register_endpoint(
