@@ -3,6 +3,7 @@ The default group of operations that pyflexebs has
 """
 import logging
 import os
+import subprocess
 import sys
 import time
 
@@ -139,10 +140,19 @@ def enlarge_volume(p, device_to_volume, ec2):
         except Exception as e:
             print("Failure in increasing size [{}]".format(e))
     # resize the file system
+    print("doing [{}] extension", format(p.fstype))
     if p.fstype == "ext4":
-
+        subprocess.check_call([
+            "resize2fs",
+            p.device,
+        ])
     if p.fstype == "xfs":
-        pass
+        print("doing ext4 extension")
+        subprocess.check_call([
+            "xfs_growfs",
+            "-d",
+            p.mountpoint,
+        ])
 
 
 @register_endpoint(
