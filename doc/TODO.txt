@@ -1,3 +1,4 @@
+- package this module with it's dependencies.
 - all print change to logging
 - make logging to system logger the default
 - add lots of more documentation in the README file.
