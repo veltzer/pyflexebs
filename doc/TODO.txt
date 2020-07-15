@@ -6,15 +6,20 @@
 	get ridd of the old bigger disk
 	connect the smaller disk to the mount point where the big disk was
 	start the services that were stopped in the first phase.
+- add ignorable tags.
+	If the machine has a tag "dontresize" then dont resize
+	if the machine has a tag "dontresize_up" then dont resize up
+	if the machine has a tag "dontresize_down" then dont resize down
 - package this module with it's dependencies.
 - all print change to logging
+- print logging with library for GB, MB etc. 
 - make logging to system logger the default
 - add lots of more documentation in the README file.
 - remove debugging.
 - currently remove support for reducing.
 - package with dependencies.
-
 - check that I have root permissions at start.
+
 - give out better message about missing tools referring to path.
 - allow to package the entire tools as one file.
 - daemon work
