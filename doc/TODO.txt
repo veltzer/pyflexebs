@@ -11,6 +11,9 @@
 	if the machine has a tag "dont_resize_up" then dont resize up
 	if the machine has a tag "dont_resize_down" then dont resize down
 
+- use https://pypi.org/project/bitmath to do byte calculations.
+- do not try to change things until 6 hours have passed from the last change
+    or you 
 - package this module with it's dependencies.
 - use one logger for the entire package.
 - currently remove support for reducing.
