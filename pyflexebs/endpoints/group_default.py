@@ -59,13 +59,14 @@ def daemon() -> None:
     instance_id = metadata.instance_id
     ec2_resource = boto3.resource('ec2', region_name=metadata.region)
     instance = ec2_resource.Instance(instance_id)
+    ec2_client = boto3.client('ec2', region_name=metadata.region)
+
     volumes = instance.volumes.all()
     device_to_volume = dict()
     for volume in volumes:
         for a in volume.attachments:
             device = normalize_device(a["Device"])
             device_to_volume[device] = volume
-    ec2_client = boto3.client('ec2', region_name=metadata.region)
 
     while True:
         logger.info("checking disk utilization")
@@ -134,7 +135,7 @@ def enlarge_volume(p, device_to_volume, ec2):
         logger.info("trying to increase size to [{}]".format(size(new_size)))
         # noinspection PyBroadException
         try:
-            _result = ec2.modify_volume(
+            result = ec2.modify_volume(
                 DryRun=ConfigAlgo.dryrun,
                 VolumeId=volume_id,
                 Size=new_size//(1024*1024*1024),
