@@ -137,7 +137,7 @@ def enlarge_volume(p, device_to_volume, ec2):
             result = ec2.modify_volume(
                 DryRun=ConfigAlgo.dryrun,
                 VolumeId=volume_id,
-                Size=new_size/(1024*1024),
+                Size=new_size//(1024*1024),
             )
             logger.info("Success in increasing size [{}]".format(result))
         except Exception as e:
