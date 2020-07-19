@@ -134,12 +134,13 @@ def enlarge_volume(p, device_to_volume, ec2):
         logger.info("trying to increase size to [{}]".format(size(new_size)))
         # noinspection PyBroadException
         try:
-            result = ec2.modify_volume(
+            _result = ec2.modify_volume(
                 DryRun=ConfigAlgo.dryrun,
                 VolumeId=volume_id,
-                Size=new_size//(1024*1024),
+                Size=new_size//(1024*1024*1024),
             )
-            logger.info("Success in increasing size [{}]".format(result))
+            logger.debug("Success in increasing size [{}]".format(result))
+            logger.info("Success in increasing size")
         except Exception as e:
             logger.info("Failure in increasing size [{}]".format(e))
     # resize the file system
