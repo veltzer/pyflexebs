@@ -51,6 +51,7 @@ def daemon() -> None:
     """
     Run daemon and monitor disk utilization
     """
+    logger = logging.getLogger(__name__)
     configure_proxy()
     check_tools()
     metadata = ec2_metadata.ec2_metadata
@@ -65,7 +66,6 @@ def daemon() -> None:
             device_to_volume[device] = volume
     ec2_client = boto3.client('ec2', region_name=metadata.region)
 
-    logger = logging.getLogger(__name__)
     while True:
         logger.info("checking disk utilization")
         for p in psutil.disk_partitions():
@@ -116,21 +116,22 @@ def normalize_device(dev: str) -> str:
 
 
 def enlarge_volume(p, device_to_volume, ec2):
+    logger = logging.getLogger(__name__)
     if p.device not in device_to_volume:
-        print("Cannot find device [{}]. Not resizing".format(p.device))
+        logger.error("Cannot find device [{}]. Not resizing".format(p.device))
         return
     volume = device_to_volume[p.device]
     volume_id = volume.id
     # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
-    print("total is [{}]".format(volume_size))
-    print("type(total) is [{}]".format(type(volume_size)))
+    logger.info("total is [{}]".format(volume_size))
+    logger.info("type(total) is [{}]".format(type(volume_size)))
     volume_size_float = float(volume_size)
     volume_size_float /= 100
     volume_size_float *= (100+ConfigAlgo.increase_percent)
     new_size = int(volume_size_float)
     if volume.size < new_size:
-        print("trying to increase size to [{}]".format(new_size))
+        logger.info("trying to increase size to [{}]".format(new_size))
         # noinspection PyBroadException
         try:
             result = ec2.modify_volume(
@@ -138,11 +139,11 @@ def enlarge_volume(p, device_to_volume, ec2):
                 VolumeId=volume_id,
                 Size=new_size,
             )
-            print("Success in increasing size [{}]".format(result))
+            logger.info("Success in increasing size [{}]".format(result))
         except Exception as e:
-            print("Failure in increasing size [{}]".format(e))
+            logger.info("Failure in increasing size [{}]".format(e))
     # resize the file system
-    print("doing [{}] extension", format(p.fstype))
+    logger.info("doing [{}] extension", format(p.fstype))
     if p.fstype == "ext4":
         if not ConfigAlgo.dryrun:
             subprocess.check_call([
@@ -162,29 +163,33 @@ def enlarge_volume(p, device_to_volume, ec2):
     group=GROUP_NAME_DEFAULT,
     configs=[ConfigAlgo, ConfigProxy],
 )
-def print_volumes() -> None:
+def show_volumes() -> None:
     """
-    Print volume information
+    Show volume information
     """
+    logger = logging.getLogger(__name__)
     configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     # check that we have attached an IAM role to the machine
     # we need this for credentials
     if metadata.iam_info is None:
-        print("No IAM role attached to instance. Please fix instance configuration.")
+        logger.error("No IAM role attached to instance. Please fix instance configuration.")
         return
-    print("Found iam_info, good...")
+    logger.info("Found iam_info, good...")
     instance_id = metadata.instance_id
     session = boto3.session.Session(region_name=metadata.region)
     ec2 = session.resource('ec2')
     instance = ec2.Instance(instance_id)
-    print("instance is [{}]".format(instance_id))
+    logger.info("instance is [{}]".format(instance_id))
     volumes = instance.volumes.all()
     for v in volumes:
         dump(v)
 
 
 def dump(obj):
+    """
+    debugging function to dump objects
+    """
     for attr in dir(obj):
         if attr.startswith("__"):
             continue
@@ -209,28 +214,28 @@ def show_policies() -> None:
     """
     Show policies that are configured for your role
     """
+    logger = logging.getLogger(__name__)
     configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     # check that we have attached an IAM role to the machine
     # we need this for credentials
     if metadata.iam_info is None:
-        print("No IAM role attached to instance. Please fix instance configuration.")
+        logger.error("No IAM role attached to instance. Please fix instance configuration.")
         return
-    print("Found iam_info, good...")
-    print("found [{}]".format(metadata.iam_info))
+    logger.info("Found iam_info, good...")
+    logger.info("found [{}]".format(metadata.iam_info))
     instance_profile_arn = metadata.iam_info["InstanceProfileArn"]
-    print("instance_profile_arn [{}]".format(instance_profile_arn))
+    logger.info("instance_profile_arn [{}]".format(instance_profile_arn))
     name = instance_profile_arn.split("/")[1]
-    print("name [{}]".format(name))
+    logger.info("name [{}]".format(name))
     session = boto3.session.Session(region_name=metadata.region)
     iam = session.client('iam')
     policy_list = iam.list_attached_role_policies(RoleName=name)
-    # pprint(policy_list)
     for policy in policy_list["AttachedPolicies"]:
         policy_name = policy["PolicyName"]
         policy_arn = policy["PolicyArn"]
-        print("policy_name: [{}]".format(policy_name))
-        print("policy_arn: [{}]".format(policy_arn))
+        logger.info("policy_name: [{}]".format(policy_name))
+        logger.info("policy_arn: [{}]".format(policy_arn))
 
 
 def configure_proxy():
@@ -249,10 +254,11 @@ def check_tools():
     """
     Check that the command line tools we need are available
     """
+    logger = logging.getLogger(__name__)
     problems = False
     for app in ["xfs_growfs", "resize2fs"]:
         if pypathutil.common.find_in_standard_path(app) is None:
             problems = True
-            print("please install executable [{}]".format(app))
+            logger.error("please install executable [{}]".format(app))
     if problems:
         sys.exit(1)
