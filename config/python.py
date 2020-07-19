@@ -18,6 +18,7 @@ run_requires = [
     'pyfakeuse',  # for fake use
     'ec2-metadata',  # for metadata
     'pypathutil',  # for checking path elements
+    'hurry.filesize',  # for printing sizes
 ]
 
 test_requires = [

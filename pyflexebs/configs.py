@@ -34,6 +34,10 @@ class ConfigAlgo(Config):
         default=50,
         help_string="By how much to increase (in percentiles)",
     )
+    increase_max_gb = ParamCreator.create_int(
+        default=100,
+        help_string="never increase by more than (in GB)",
+    )
     dryrun = ParamCreator.create_bool(
         default=False,
         help_string="Should we dry run the actual operations?",

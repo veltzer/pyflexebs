@@ -10,6 +10,7 @@ import time
 import boto3
 import ec2_metadata
 import psutil as psutil
+from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
 from pytconf.config import register_endpoint, register_function_group
 
@@ -124,20 +125,19 @@ def enlarge_volume(p, device_to_volume, ec2):
     volume_id = volume.id
     # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
-    logger.info("total is [{}]".format(volume_size))
-    logger.info("type(total) is [{}]".format(type(volume_size)))
+    logger.info("total is [{}]".format(size(volume_size)))
     volume_size_float = float(volume_size)
     volume_size_float /= 100
     volume_size_float *= (100+ConfigAlgo.increase_percent)
     new_size = int(volume_size_float)
     if volume.size < new_size:
-        logger.info("trying to increase size to [{}]".format(new_size))
+        logger.info("trying to increase size to [{}]".format(size(new_size)))
         # noinspection PyBroadException
         try:
             result = ec2.modify_volume(
                 DryRun=ConfigAlgo.dryrun,
                 VolumeId=volume_id,
-                Size=new_size,
+                Size=new_size/(1024*1024),
             )
             logger.info("Success in increasing size [{}]".format(result))
         except Exception as e:
