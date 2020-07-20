@@ -23,6 +23,7 @@ project website: <https://veltzer.github.io/pyflexebs>
 
 # How to build the package
 
+    $ pip install -r requirements.txt
     $ pydmt build
     $ pypitools package
 
