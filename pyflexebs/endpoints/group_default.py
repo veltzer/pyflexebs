@@ -52,7 +52,7 @@ def daemon() -> None:
     """
     Run daemon and monitor disk utilization
     """
-    logger = logging.getLogger(__name__)
+    logger = get_logger()
     configure_proxy()
     check_tools()
     metadata = ec2_metadata.ec2_metadata
@@ -118,7 +118,7 @@ def normalize_device(dev: str) -> str:
 
 
 def enlarge_volume(p, device_to_volume, ec2):
-    logger = logging.getLogger(__name__)
+    logger = get_logger()
     if p.device not in device_to_volume:
         logger.error("Cannot find device [{}]. Not resizing".format(p.device))
         return
@@ -169,7 +169,7 @@ def show_volumes() -> None:
     """
     Show volume information
     """
-    logger = logging.getLogger(__name__)
+    logger = get_logger()
     configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     # check that we have attached an IAM role to the machine
@@ -216,7 +216,7 @@ def show_policies() -> None:
     """
     Show policies that are configured for your role
     """
-    logger = logging.getLogger(__name__)
+    logger = get_logger()
     configure_proxy()
     metadata = ec2_metadata.ec2_metadata
     # check that we have attached an IAM role to the machine
@@ -256,7 +256,7 @@ def check_tools():
     """
     Check that the command line tools we need are available
     """
-    logger = logging.getLogger(__name__)
+    logger = get_logger()
     problems = False
     for app in ["xfs_growfs", "resize2fs"]:
         if pypathutil.common.find_in_standard_path(app) is None:
@@ -264,3 +264,7 @@ def check_tools():
             logger.error("please install executable [{}]".format(app))
     if problems:
         sys.exit(1)
+
+
+def get_logger():
+    return logging.get_logger(pyflexebs.logger_name)

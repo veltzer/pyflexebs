@@ -6,16 +6,17 @@
 	get rid of the old bigger disk
 	connect the smaller disk to the mount point where the big disk was
 	start the services that were stopped in the first phase.
+
 - add ignorable tags.
 	If the machine has a tag "dont_resize" then dont resize
 	if the machine has a tag "dont_resize_up" then dont resize up
 	if the machine has a tag "dont_resize_down" then dont resize down
-
 - use https://pypi.org/project/bitmath to do byte calculations.
 - do not try to change things until 6 hours have passed from the last change
-    or you 
+    or you
+    if you do try to change and get the right return value then print a message
+    that says that it is so.
 - package this module with it's dependencies.
-- use one logger for the entire package.
 - currently remove support for reducing.
 - check that I have root permissions at start.
 
