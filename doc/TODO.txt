@@ -1,12 +1,3 @@
-- support LVM.
-- support shrinking:
-	stop the services that write to the disk.
-	attach a new smaller disk.
-	copy all data from old bigger disk to new smaller disk.
-	get rid of the old bigger disk
-	connect the smaller disk to the mount point where the big disk was
-	start the services that were stopped in the first phase.
-
 - add ignorable tags.
 	If the machine has a tag "dont_resize" then dont resize
 	if the machine has a tag "dont_resize_up" then dont resize up
@@ -17,11 +8,8 @@
     if you do try to change and get the right return value then print a message
     that says that it is so.
 - package this module with it's dependencies.
-
-- give out better message about missing tools referring to path.
-- allow to package the entire tools as one file.
 - daemon work
-- resize fs.
-- do radical stuff like turn partitions to lvm.
-- add documentation in the main file.
-- add support for config file to pytconf.
+- config file work
+    support in pytconf
+    document how to configure in the main snipplet
+- lvm support

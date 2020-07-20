@@ -1,0 +1,7 @@
+- support shrinking:
+	stop the services that write to the disk.
+	attach a new smaller disk.
+	copy all data from old bigger disk to new smaller disk.
+	get rid of the old bigger disk
+	connect the smaller disk to the mount point where the big disk was
+	start the services that were stopped in the first phase.
