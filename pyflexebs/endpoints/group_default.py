@@ -3,7 +3,6 @@ The default group of operations that pyflexebs has
 """
 import logging
 import os
-import subprocess
 import sys
 import time
 
@@ -20,8 +19,12 @@ from pyflexebs.configs import ConfigAlgo, ConfigProxy
 
 import pypathutil.common
 
+from pyflexebs.utils import run_with_logger
+
 GROUP_NAME_DEFAULT = "default"
 GROUP_DESCRIPTION_DEFAULT = "all pyflexebs commands"
+
+TAG_DONT_RESIZE = "dont_resize"
 
 
 def register_group_default():
@@ -60,6 +63,7 @@ def daemon() -> None:
     instance_id = metadata.instance_id
     ec2_resource = boto3.resource('ec2', region_name=metadata.region)
     instance = ec2_resource.Instance(instance_id)
+    tags = instance.tags
     ec2_client = boto3.client('ec2', region_name=metadata.region)
 
     volumes = instance.volumes.all()
@@ -75,6 +79,8 @@ def daemon() -> None:
             if p.mountpoint in ConfigAlgo.disregard:
                 continue
             if p.fstype not in ConfigAlgo.file_systems:
+                continue
+            if TAG_DONT_RESIZE in tags:
                 continue
             logger.info("checking {} {} {}".format(
                 p.device,
@@ -138,17 +144,17 @@ def enlarge_volume(p, device_to_volume, ec2):
     logger.info("doing [{}] extension", format(p.fstype))
     if p.fstype == "ext4":
         if not ConfigAlgo.dryrun:
-            subprocess.check_call([
+            run_with_logger([
                 "resize2fs",
                 p.device,
-            ])
+            ], logger=logger)
     if p.fstype == "xfs":
         if not ConfigAlgo.dryrun:
-            subprocess.check_call([
+            run_with_logger([
                 "xfs_growfs",
                 "-d",
                 p.mountpoint,
-            ])
+            ], logger=logger)
 
 
 @register_endpoint(

@@ -49,4 +49,8 @@ or
 
     pip3 install [pyflexebs-VERSION.tar.gz]
 
+# How to mark a machine not to be resized
+
+Just add a "dont_resize" tag to the machine.
+Pyflexebs will inquire about the machines tags and will not do resizing on that machine.
 
