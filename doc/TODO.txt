@@ -1,6 +1,7 @@
 - do not try to change things until 6 hours have passed from the last change
-    if you do try to change and get the right return value then print a message
-    that says that it is so.
+- if you do try to change and get the wrong return value then print a message
+    that says that it is so (volume is still optimizing or that 6 hours had not
+    passwd then work with that accordingly).
 - package this module with it's dependencies.
 - daemon work
 - config file work
