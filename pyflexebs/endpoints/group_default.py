@@ -55,6 +55,7 @@ def daemon() -> None:
     logger = get_logger()
     configure_proxy()
     check_tools()
+    check_root()
     metadata = ec2_metadata.ec2_metadata
     instance_id = metadata.instance_id
     ec2_resource = boto3.resource('ec2', region_name=metadata.region)
@@ -257,3 +258,8 @@ def check_tools():
 
 def get_logger():
     return logging.getLogger(pyflexebs.logger_name)
+
+
+def check_root():
+    if not os.geteuid() == 0:
+        sys.exit('Script must be run as root')

@@ -17,8 +17,6 @@
     if you do try to change and get the right return value then print a message
     that says that it is so.
 - package this module with it's dependencies.
-- currently remove support for reducing.
-- check that I have root permissions at start.
 
 - give out better message about missing tools referring to path.
 - allow to package the entire tools as one file.
