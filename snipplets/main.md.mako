@@ -1,5 +1,6 @@
 # How to build the package
 
+    $ pip install -r requirements.txt
     $ pydmt build
     $ pypitools package
 
