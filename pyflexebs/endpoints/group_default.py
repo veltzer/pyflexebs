@@ -92,17 +92,6 @@ def daemon() -> None:
                         psutil.disk_usage(p.mountpoint).used,
                     ))
                     enlarge_volume(p, device_to_volume, ec2_client)
-            if ConfigAlgo.watermark_min is not None:
-                if psutil.disk_usage(p.mountpoint).percent <= ConfigAlgo.watermark_min:
-                    logger.info("min watermark detected at disk {} mountpoint {}".format(
-                        p.device,
-                        p.mountpoint,
-                    ))
-                    logger.info("percent is {}, total is {}, used is {}".format(
-                        psutil.disk_usage(p.mountpoint).percent,
-                        psutil.disk_usage(p.mountpoint).total,
-                        psutil.disk_usage(p.mountpoint).used,
-                    ))
         time.sleep(ConfigAlgo.interval)
 
 
@@ -267,4 +256,4 @@ def check_tools():
 
 
 def get_logger():
-    return logging.get_logger(pyflexebs.logger_name)
+    return logging.getLogger(pyflexebs.logger_name)
