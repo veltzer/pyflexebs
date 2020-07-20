@@ -8,3 +8,4 @@
     support in pytconf
     document how to configure in the main snipplet
 - lvm support
+- document how to do manual reducing of volumes in the main README file.
