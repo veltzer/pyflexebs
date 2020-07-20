@@ -6,6 +6,7 @@ import os
 import sys
 import time
 
+import bitmath
 import boto3
 import ec2_metadata
 import psutil as psutil
@@ -134,7 +135,7 @@ def enlarge_volume(p, device_to_volume, ec2):
             result = ec2.modify_volume(
                 DryRun=ConfigAlgo.dryrun,
                 VolumeId=volume_id,
-                Size=new_size//(1024*1024*1024),
+                Size=bitmath.Byte(new_size).to_GB(),
             )
             logger.debug("Success in increasing size [{}]".format(result))
             logger.info("Success in increasing size")

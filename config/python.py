@@ -19,6 +19,7 @@ run_requires = [
     'ec2-metadata',  # for metadata
     'pypathutil',  # for checking path elements
     'hurry.filesize',  # for printing sizes
+    'bitmath',  # to do calculations of bytes
 ]
 
 test_requires = [

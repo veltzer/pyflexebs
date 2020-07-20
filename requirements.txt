@@ -9,6 +9,7 @@ pyfakeuse
 ec2-metadata
 pypathutil
 hurry.filesize
+bitmath
 # dev requirements
 pyclassifiers
 pypitools

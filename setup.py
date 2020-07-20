@@ -42,6 +42,7 @@ setuptools.setup(
         'ec2-metadata',
         'pypathutil',
         'hurry.filesize',
+        'bitmath',
     ],
     extras_require={
     },

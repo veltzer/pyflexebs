@@ -1,5 +1,3 @@
-- use https://pypi.org/project/bitmath to do byte calculations instead of
-    the ugly code that I have now which just does division.
 - do not try to change things until 6 hours have passed from the last change
     if you do try to change and get the right return value then print a message
     that says that it is so.
