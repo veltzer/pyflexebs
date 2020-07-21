@@ -8,3 +8,4 @@
     document how to configure in the main snipplet
 - lvm support
 - document how to do manual reducing of volumes in the main README file.
+- document how to run the service with debug level logging in the README file.
