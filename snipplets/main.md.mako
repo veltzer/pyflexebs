@@ -30,3 +30,10 @@ or
 
 Just add a "dont_resize" tag to the machine.
 Pyflexebs will inquire about the machines tags and will not do resizing on that machine.
+
+
+# How to get all prerequisite packages for this package from pypi.org?
+
+Just run
+
+    $ pypitools prerequisites
