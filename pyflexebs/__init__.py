@@ -1,1 +1,1 @@
-logger_name = "pyflexebs"
+LOGGER_NAME = "pyflexebs"

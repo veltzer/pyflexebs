@@ -264,7 +264,7 @@ def check_tools():
 
 
 def get_logger():
-    return logging.getLogger(pyflexebs.logger_name)
+    return logging.getLogger(pyflexebs.LOGGER_NAME)
 
 
 def check_root():
