@@ -3,6 +3,8 @@
     that says that it is so (volume is still optimizing or that 6 hours had not
     passwd then work with that accordingly).
 - package this module with it's dependencies.
+    add such a feature to pypitools.
+    then document this in the main README file.
 - daemon work
 - config file work
     support in pytconf
