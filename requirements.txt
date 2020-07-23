@@ -15,6 +15,7 @@ pyclassifiers
 pypitools
 pydmt
 Sphinx
+pyinstaller
 # test requirements
 pylint
 pytest

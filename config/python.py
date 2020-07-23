@@ -33,6 +33,7 @@ dev_requires = [
     'pypitools',  # for upload etc
     'pydmt',  # for building
     'Sphinx',  # for the sphinx builder
+    'pyinstaller',  # for creating a single executable
 ]
 
 install_requires = list(setup_requires)

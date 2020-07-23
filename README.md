@@ -61,3 +61,13 @@ Just run
 
     $ pypitools prerequisites
 
+
+# How to create a single file distribution from this package?
+
+Just run
+
+    $ pyinstaller pyflexebs.spec
+
+The result is in the ***dist*** folder in a file called ***pyflexebs-[VERSION]***.
+This file is an executable that should run on all linux platforms.
+
