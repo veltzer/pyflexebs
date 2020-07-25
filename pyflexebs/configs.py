@@ -3,7 +3,7 @@ All configurations for pyflexebs
 """
 
 
-from pytconf.config import Config, ParamCreator
+from pytconf import Config, ParamCreator
 
 
 class ConfigAlgo(Config):

@@ -12,7 +12,7 @@ import ec2_metadata
 import psutil as psutil
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
-from pytconf.config import register_endpoint, register_function_group
+from pytconf import register_endpoint, register_function_group
 
 import pyflexebs
 import pyflexebs.version
