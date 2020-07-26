@@ -1,0 +1,7 @@
+build:
+    name: Pyflexebs
+    folder: aws
+    type: multibranch # pipeline|multibranch|maven|freestyle
+    script: Jenkinsfile
+    includeBranches: "master* *.x"
+  

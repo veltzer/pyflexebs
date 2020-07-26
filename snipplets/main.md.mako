@@ -42,3 +42,5 @@ This file is an executable that should run on all linux platforms.
 # How to remove this package as a service?
 
     $ sudo ./pyflexebs-[version] service_uninstall
+
+<%include file="../snipplets/reduce.md.mako" />

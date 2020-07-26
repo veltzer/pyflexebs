@@ -3,6 +3,7 @@ The default group of operations that pyflexebs has
 """
 import logging
 import os
+import subprocess
 import sys
 import time
 
@@ -116,18 +117,31 @@ def normalize_device(dev: str) -> str:
 
 def enlarge_volume(p, device_to_volume, ec2):
     logger = get_logger()
-    if p.device not in device_to_volume:
-        logger.error("Cannot find device [{}]. Not resizing".format(p.device))
+    is_lvm = subprocess.check_output("lvs | grep {} | wc -l".format(p.mountpoint[1:]), shell=True).decode().rstrip()
+
+    if is_lvm != "0":
+        device = subprocess.check_output("pvs | grep `lvs | grep user  | awk '{print $2}'` | awk '{print $1}'",
+                                         shell=True).decode().rstrip()
+        device = normalize_device(device)
+    else:
+        device = p.device
+
+    if device not in device_to_volume:
+        logger.error("Cannot find device [{}]. Not resizing".format(device))
         return
-    volume = device_to_volume[p.device]
+
+    volume = device_to_volume[device]
     volume_id = volume.id
     # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
     logger.info("total is [{}]".format(size(volume_size)))
     volume_size_float = float(volume_size)
     volume_size_float /= 100
-    volume_size_float *= (100+ConfigAlgo.increase_percent)
-    new_size = int(volume_size_float)
+    # volume_size_float *= (100+ConfigAlgo.increase_percent)
+    # new_size = int(volume_size_float)
+    volume_size_float *= ConfigAlgo.increase_percent
+    volume_size_int = int(volume_size_float)
+    new_size = volume_size + volume_size_int
     if volume.size < new_size:
         logger.info("trying to increase size to [{}]".format(size(new_size)))
         # noinspection PyBroadException
@@ -142,7 +156,26 @@ def enlarge_volume(p, device_to_volume, ec2):
         except Exception as e:
             logger.info("Failure in increasing size [{}]".format(e))
     # resize the file system
-    logger.info("doing [{}] extension", format(p.fstype))
+    logger.info("doing [{}] extension".format(p.fstype))
+    if is_lvm != "0":
+        volume_size_int = bitmath.Byte(volume_size_int).to_MB(),
+        if not ConfigAlgo.dryrun:
+            run_with_logger([
+                "blockdev",
+                "--rereadpt",
+                device,
+            ], logger=logger)
+            run_with_logger([
+                "pvresize",
+                device,
+            ], logger=logger)
+            run_with_logger([
+                "lvextend",
+                "-L",
+                "+{}M".format(volume_size_int),
+                p.device,
+            ], logger=logger)
+
     if p.fstype == "ext4":
         if not ConfigAlgo.dryrun:
             run_with_logger([
