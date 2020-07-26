@@ -1,17 +1,12 @@
 # How to create a package this code?
 
-First get pip3, usually with:
+On a yum system:
 
-    $ sudo yum install python3-pip
+    $ ./build.yum.sh
 
-or
-
-    $ sudo apt install python3-pip
-
-The run:
-
-    $ pip3 install --user pyinstaller
-    $ pyinstaller pyflexebs.spec
+On an apt system:
+    
+    $ ./build.apt.sh
 
 The result is in the ***dist*** folder in a file called ***pyflexebs-[VERSION]***.
 This file is an executable that should run on all linux platforms.
