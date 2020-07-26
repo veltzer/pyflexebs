@@ -27,11 +27,11 @@ Make sure you have internet access, as the following commands may pull packages 
 
 On a yum system:
 
-    $ ./build.yum.sh
+    $ sudo ./build.yum.sh
 
 On an apt system:
     
-    $ ./build.apt.sh
+    $ sudo ./build.apt.sh
 
 The result is in the ***dist*** folder in a file called ***pyflexebs-[VERSION]***.
 This file is an executable that should run on all linux platforms.
