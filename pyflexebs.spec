@@ -8,7 +8,7 @@ block_cipher = None
 
 
 a = Analysis(['pyflexebs/endpoints/main.py'],
-             pathex=['/home/mark/git/pyflexebs'],
+             pathex=['.'],
              binaries=[],
              datas=[],
              hiddenimports=[],
