@@ -25,6 +25,26 @@ project website: <https://veltzer.github.io/pyflexebs>
 
 Make sure you have internet access, as the following commands may pull packages off the internet.
 
+Install git
+
+On a yum system:
+
+    $ sudo yum install git
+
+On an apt system:
+
+    $ sudo apt install git
+
+Clone the repository:
+
+    $ git clone https://github.com/veltzer/pyflexebs
+
+CD into the repository:
+
+    $ cd pyflexebs
+
+Build the executable
+
 On a yum system:
 
     $ ./build.yum.sh
