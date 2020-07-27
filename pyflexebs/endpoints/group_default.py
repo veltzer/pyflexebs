@@ -11,6 +11,7 @@ import boto3
 import ec2_metadata
 import psutil as psutil
 import pylogconf.core
+from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
 from pytconf import register_endpoint, register_function_group
@@ -51,7 +52,7 @@ def version() -> None:
     group=GROUP_NAME_DEFAULT,
     configs=[ConfigAlgo, ConfigProxy],
 )
-def daemon() -> None:
+def daemon_run() -> None:
     """
     Run daemon and monitor disk utilization
     """
