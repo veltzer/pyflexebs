@@ -262,7 +262,8 @@ def show_policies() -> None:
 
 
 SYSTEMD_FOLDER = "/lib/systemd/system"
-UNIT_FILE = "/lib/systemd/system/pyflexebs.service"
+SERVICE_NAME = "pyflexebs.service"
+UNIT_FILE = "/lib/systemd/system/{}".format(SERVICE_NAME)
 
 CONTENT = """[Unit]
 Description=pyflexebs service
@@ -296,6 +297,11 @@ def service_install() -> None:
         "systemctl",
         "daemon-reload",
     ])
+    # subprocess.check_call([
+    #    "systemctl",
+    #    "start",
+    #    SERVICE_NAME,
+    # ])
 
 
 @register_endpoint(
@@ -308,8 +314,43 @@ def service_uninstall() -> None:
     check_root()
     assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
     assert os.path.isfile(UNIT_FILE), "you dont have the service installed"
+    # subprocess.check_call([
+    #    "systemctl",
+    #    "stop",
+    #    SERVICE_NAME,
+    # ])
     os.unlink(UNIT_FILE)
     subprocess.check_call([
         "systemctl",
         "daemon-reload",
+    ])
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+)
+def service_start() -> None:
+    """
+    Start the service
+    """
+    check_root()
+    subprocess.check_call([
+        "systemctl",
+        "start",
+        SERVICE_NAME,
+    ])
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+)
+def service_stop() -> None:
+    """
+    Stop the service
+    """
+    check_root()
+    subprocess.check_call([
+        "systemctl",
+        "stop",
+        SERVICE_NAME,
     ])
