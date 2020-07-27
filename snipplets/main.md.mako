@@ -43,4 +43,23 @@ This file is an executable that should run on all linux platforms.
 
     $ sudo ./pyflexebs-[version] service_uninstall
 
+
+# How to start the service
+
+    $ sudo ./pyflexebs-[version] service_start
+
+or
+
+    $ sudo systemctl start pyflexebs.service
+
+
+# How to stop the service
+    
+    $ sudo ./pyflexebs-[version] service_stop
+
+or
+
+    $ sudo systemctl stop pyflexebs.service
+
+
 <%include file="../snipplets/reduce.md.mako" />

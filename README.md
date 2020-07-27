@@ -66,6 +66,25 @@ This file is an executable that should run on all linux platforms.
 
     $ sudo ./pyflexebs-[version] service_uninstall
 
+
+# How to start the service
+
+    $ sudo ./pyflexebs-[version] service_start
+
+or
+
+    $ sudo systemctl start pyflexebs.service
+
+
+# How to stop the service
+    
+    $ sudo ./pyflexebs-[version] service_stop
+
+or
+
+    $ sudo systemctl stop pyflexebs.service
+
+
 # Reducing AWS EBS Volumes
 
 Assuming we want to reduce EBS, the first thing we will need to do is to make a note of the root volume’s block device name and our instance’s availability zone
