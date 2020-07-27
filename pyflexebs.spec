@@ -1,9 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-import sys
-sys.path.append(".")
-import config.version
-
 block_cipher = None
 
 
@@ -27,7 +23,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='pyflexebs-{}'.format(config.version.version_str),
+          name='pyflexebs',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
