@@ -281,6 +281,9 @@ WantedBy=multi-user.target
     group=GROUP_NAME_DEFAULT,
 )
 def service_install() -> None:
+    """
+    Install the service on the current machine
+    """
     check_root()
     assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
     assert not os.path.isfile(UNIT_FILE), "you already have the service installed"
@@ -299,6 +302,9 @@ def service_install() -> None:
     group=GROUP_NAME_DEFAULT,
 )
 def service_uninstall() -> None:
+    """
+    Uninstall the service from the current machine
+    """
     check_root()
     assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
     assert os.path.isfile(UNIT_FILE), "you dont have the service installed"
