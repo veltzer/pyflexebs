@@ -1,4 +1,9 @@
+import logging
+import os
+import sys
 from subprocess import Popen, PIPE
+
+import pyflexebs
 
 
 def run_with_logger(args, logger):
@@ -15,3 +20,12 @@ def run_with_logger(args, logger):
         logger.debug("stderr was [{}]".format(err.decode()))
     else:
         logger.info("execution was successful")
+
+
+def get_logger():
+    return logging.getLogger(pyflexebs.LOGGER_NAME)
+
+
+def check_root():
+    if not os.geteuid() == 0:
+        sys.exit('Script must be run as root')

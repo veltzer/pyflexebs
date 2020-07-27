@@ -1,7 +1,6 @@
 """
 The default group of operations that pyflexebs has
 """
-import logging
 import os
 import subprocess
 import sys
@@ -21,7 +20,7 @@ from pyflexebs.configs import ConfigAlgo, ConfigProxy
 
 import pypathutil.common
 
-from pyflexebs.utils import run_with_logger
+from pyflexebs.utils import run_with_logger, get_logger, check_root
 
 GROUP_NAME_DEFAULT = "default"
 GROUP_DESCRIPTION_DEFAULT = "all pyflexebs commands"
@@ -296,10 +295,3 @@ def check_tools():
         sys.exit(1)
 
 
-def get_logger():
-    return logging.getLogger(pyflexebs.LOGGER_NAME)
-
-
-def check_root():
-    if not os.geteuid() == 0:
-        sys.exit('Script must be run as root')
