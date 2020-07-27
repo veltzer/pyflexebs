@@ -18,9 +18,7 @@ import pyflexebs
 import pyflexebs.version
 from pyflexebs.configs import ConfigAlgo, ConfigProxy
 
-import pypathutil.common
-
-from pyflexebs.utils import run_with_logger, get_logger, check_root
+from pyflexebs.utils import run_with_logger, get_logger, check_root, configure_proxy, check_tools, dump
 
 GROUP_NAME_DEFAULT = "default"
 GROUP_DESCRIPTION_DEFAULT = "all pyflexebs commands"
@@ -217,16 +215,6 @@ def show_volumes() -> None:
         dump(v)
 
 
-def dump(obj):
-    """
-    debugging function to dump objects
-    """
-    for attr in dir(obj):
-        if attr.startswith("__"):
-            continue
-        print("obj.%s = %r" % (attr, getattr(obj, attr)))
-
-
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
 )
@@ -269,29 +257,49 @@ def show_policies() -> None:
         logger.info("policy_arn: [{}]".format(policy_arn))
 
 
-def configure_proxy():
-    if ConfigProxy.http_proxy is not None:
-        os.environ['http_proxy'] = ConfigProxy.http_proxy
-        os.environ['HTTP_PROXY'] = ConfigProxy.http_proxy
-    if ConfigProxy.https_proxy is not None:
-        os.environ['https_proxy'] = ConfigProxy.https_proxy
-        os.environ['HTTPS_PROXY'] = ConfigProxy.https_proxy
-    if ConfigProxy.no_proxy is not None:
-        os.environ['no_proxy'] = ConfigProxy.no_proxy
-        os.environ['NO_PROXY'] = ConfigProxy.no_proxy
+SYSTEMD_FOLDER = "/lib/systemd/system"
+UNIT_FILE = "/lib/systemd/system/pyflexebs.service"
+
+CONTENT = """[Unit]
+Description=pyflexebs service
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart={}
+
+[Install]
+WantedBy=multi-user.target
+"""
 
 
-def check_tools():
-    """
-    Check that the command line tools we need are available
-    """
-    logger = get_logger()
-    problems = False
-    for app in ["xfs_growfs", "resize2fs"]:
-        if pypathutil.common.find_in_standard_path(app) is None:
-            problems = True
-            logger.error("please install executable [{}]".format(app))
-    if problems:
-        sys.exit(1)
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+)
+def service_install() -> None:
+    check_root()
+    assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
+    assert not os.path.isfile(UNIT_FILE), "you already have the service installed"
+    abs_path_to_program = sys.argv[0]
+    if not os.path.isabs(abs_path_to_program):
+        abs_path_to_program = os.path.join(os.getcwd(), abs_path_to_program)
+    with open(UNIT_FILE, "wt") as f:
+        f.write(CONTENT.format(abs_path_to_program))
+    subprocess.check_call([
+        "systemctl",
+        "daemon-reload",
+    ])
 
 
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+)
+def service_uninstall() -> None:
+    check_root()
+    assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
+    assert os.path.isfile(UNIT_FILE), "you dont have the service installed"
+    os.unlink(UNIT_FILE)
+    subprocess.check_call([
+        "systemctl",
+        "daemon-reload",
+    ])
