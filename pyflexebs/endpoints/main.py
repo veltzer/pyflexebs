@@ -1,8 +1,6 @@
 """
 main entry point to the program
 """
-
-
 import pylogconf.core
 from pytconf import register_main, config_arg_parse_and_launch
 
