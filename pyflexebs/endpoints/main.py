@@ -21,7 +21,7 @@ def main():
     """
     pyflexebs will enlarge/reduce your ebs volumes in real time
     """
-    pylogconf.core.setup()
+    pylogconf.core.setup_systemd(name="pyflexebs")
     register_all_groups()
     config_arg_parse_and_launch()
 
