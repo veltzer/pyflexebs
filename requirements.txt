@@ -10,6 +10,7 @@ ec2-metadata
 pypathutil
 hurry.filesize
 bitmath
+python-daemon
 # dev requirements
 pyclassifiers
 pypitools

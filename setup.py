@@ -43,6 +43,7 @@ setuptools.setup(
         'pypathutil',
         'hurry.filesize',
         'bitmath',
+        'python-daemon',
     ],
     extras_require={
     },

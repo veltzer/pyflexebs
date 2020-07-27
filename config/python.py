@@ -20,6 +20,7 @@ run_requires = [
     'pypathutil',  # for checking path elements
     'hurry.filesize',  # for printing sizes
     'bitmath',  # to do calculations of bytes
+    'python-daemon',  # for daemonization
 ]
 
 test_requires = [
