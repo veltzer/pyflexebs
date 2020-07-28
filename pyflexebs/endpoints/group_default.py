@@ -66,9 +66,12 @@ def run():
     # pylogconf.core.setup_systemd(name="pyflexebs")
     logger = get_logger()
     logger.info("starting")
-    configure_proxy()
-    check_tools()
-    check_root()
+    if ConfigControl.configure_proxy:
+        configure_proxy()
+    if ConfigControl.check_tools:
+        check_tools()
+    if ConfigControl.check_root:
+        check_root()
     metadata = ec2_metadata.ec2_metadata
     instance_id = metadata.instance_id
     ec2_resource = boto3.resource('ec2', region_name=metadata.region)
