@@ -66,7 +66,10 @@ def daemon_run() -> None:
 def run():
     if ConfigControl.configure_logging_syslog:
         pylogconf.core.remove_all_root_handlers()
-        pylogconf.core.setup_syslog(name=pyflexebs.LOGGER_NAME, level=pyflexebs.LOG_LEVEL)
+        pylogconf.core.setup_syslog(
+            name=pyflexebs.LOGGER_NAME,
+            level=ConfigControl.loglevel,
+        )
     logger = get_logger()
     logger.info("starting")
     if ConfigControl.configure_proxy:
@@ -284,7 +287,7 @@ After=multi-user.target
 Type=simple
 ExecStart={} daemon_run
 Restart=always
-RestartSec=60
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target

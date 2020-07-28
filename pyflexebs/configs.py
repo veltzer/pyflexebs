@@ -94,3 +94,7 @@ class ConfigControl(Config):
         default=False,
         help_string="Should I run the service when installing it?",
     )
+    loglevel = ParamCreator.create_str(
+        default="INFO",
+        help_string="A which log level will the daemon work? (not the command line tool)",
+    )
