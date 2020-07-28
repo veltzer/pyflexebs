@@ -293,6 +293,7 @@ WantedBy=multi-user.target
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
+    configs=[ConfigControl],
 )
 def service_install() -> None:
     """
@@ -312,15 +313,22 @@ def service_install() -> None:
         "systemctl",
         "daemon-reload",
     ])
-    # subprocess.check_call([
-    #    "systemctl",
-    #    "start",
-    #    SERVICE_NAME,
-    # ])
+    subprocess.check_call([
+        "systemctl",
+        "enable",
+        SERVICE_NAME,
+    ])
+    if ConfigControl.install_does_run:
+        subprocess.check_call([
+            "systemctl",
+            "start",
+            SERVICE_NAME,
+        ])
 
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
+    configs=[ConfigControl],
 )
 def service_uninstall() -> None:
     """
@@ -329,11 +337,17 @@ def service_uninstall() -> None:
     check_root()
     assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
     assert os.path.isfile(UNIT_FILE), "you dont have the service installed"
-    # subprocess.check_call([
-    #    "systemctl",
-    #    "stop",
-    #    SERVICE_NAME,
-    # ])
+    if ConfigControl.uninstall_does_kill:
+        subprocess.check_call([
+            "systemctl",
+            "stop",
+            SERVICE_NAME,
+        ])
+    subprocess.check_call([
+        "systemctl",
+        "disable",
+        SERVICE_NAME,
+    ])
     os.unlink(UNIT_FILE)
     subprocess.check_call([
         "systemctl",

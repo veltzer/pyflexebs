@@ -86,3 +86,11 @@ class ConfigControl(Config):
         default=True,
         help_string="Should I configure syslog logging?",
     )
+    uninstall_does_kill = ParamCreator.create_bool(
+        default=True,
+        help_string="Should I kill the service when un-installing it?",
+    )
+    install_does_run = ParamCreator.create_bool(
+        default=False,
+        help_string="Should I run the service when installing it?",
+    )
