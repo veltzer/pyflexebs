@@ -283,6 +283,8 @@ After=multi-user.target
 [Service]
 Type=simple
 ExecStart={} daemon_run
+Restart=always
+RestartSec=60
 
 [Install]
 WantedBy=multi-user.target

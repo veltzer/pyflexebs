@@ -67,7 +67,7 @@ class ConfigControl(Config):
     Configure control of the daemon
     """
     daemonize = ParamCreator.create_bool(
-        default=True,
+        default=False,
         help_string="Should we daemonize?",
     )
     check_root = ParamCreator.create_bool(
