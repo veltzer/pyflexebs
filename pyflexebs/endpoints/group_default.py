@@ -164,7 +164,7 @@ def enlarge_volume(p, device_to_volume, ec2):
             result = ec2.modify_volume(
                 DryRun=ConfigAlgo.dryrun,
                 VolumeId=volume_id,
-                Size=bitmath.Byte(new_size).to_GB(),
+                Size=int(bitmath.Byte(new_size).to_GB()),
             )
             logger.debug("Success in increasing size [{}]".format(result))
             logger.info("Success in increasing size")
