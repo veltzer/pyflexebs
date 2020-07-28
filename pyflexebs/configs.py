@@ -71,11 +71,11 @@ class ConfigControl(Config):
         help_string="Should we daemonize?",
     )
     check_root = ParamCreator.create_bool(
-        default=False,
+        default=True,
         help_string="Should we check that we are running as root?",
     )
     check_tools = ParamCreator.create_bool(
-        default=False,
+        default=True,
         help_string="Should we check that we have the right tools?",
     )
     configure_proxy = ParamCreator.create_bool(
