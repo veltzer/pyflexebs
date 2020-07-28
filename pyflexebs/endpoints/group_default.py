@@ -304,8 +304,10 @@ def service_install() -> None:
     abs_path_to_program = sys.argv[0]
     if not os.path.isabs(abs_path_to_program):
         abs_path_to_program = os.path.join(os.getcwd(), abs_path_to_program)
-    with open(UNIT_FILE, "wt") as f:
+    prev_mask = os.umask(0o000)
+    with os.fdopen(os.open(UNIT_FILE, os.O_WRONLY | os.O_CREAT, 0o644), 'wt') as f:
         f.write(CONTENT.format(abs_path_to_program))
+    os.umask(prev_mask)
     subprocess.check_call([
         "systemctl",
         "daemon-reload",
