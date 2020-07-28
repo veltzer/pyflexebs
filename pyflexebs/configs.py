@@ -82,3 +82,7 @@ class ConfigControl(Config):
         default=True,
         help_string="Should we configure the proxy?",
     )
+    configure_logging_syslog = ParamCreator.create_bool(
+        default=True,
+        help_string="Should I configure syslog logging?",
+    )

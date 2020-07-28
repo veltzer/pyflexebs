@@ -10,6 +10,7 @@ import bitmath
 import boto3
 import ec2_metadata
 import psutil as psutil
+import pylogconf.core
 from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
@@ -63,7 +64,8 @@ def daemon_run() -> None:
 
 
 def run():
-    # pylogconf.core.setup_systemd(name="pyflexebs")
+    if ConfigControl.configure_logging_syslog:
+        pylogconf.core.setup_syslog(name=pyflexebs.LOGGER_NAME, level=pyflexebs.LOG_LEVEL)
     logger = get_logger()
     logger.info("starting")
     if ConfigControl.configure_proxy:
