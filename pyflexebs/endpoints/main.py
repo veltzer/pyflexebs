@@ -1,6 +1,8 @@
 """
 main entry point to the program
 """
+import logging
+
 import pylogconf.core
 from pytconf import register_main, config_arg_parse_and_launch
 
@@ -19,7 +21,7 @@ def main():
     """
     pyflexebs will enlarge/reduce your ebs volumes in real time
     """
-    pylogconf.core.setup()
+    pylogconf.core.setup(level=logging.INFO)
     register_all_groups()
     config_arg_parse_and_launch()
 
