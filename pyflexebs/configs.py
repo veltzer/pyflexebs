@@ -11,7 +11,7 @@ class ConfigAlgo(Config):
     Parameters for interval monitors
     """
     interval = ParamCreator.create_int(
-        default=20,
+        default=60,
         help_string="interval to monitor",
     )
     watermark_max = ParamCreator.create_int_or_none(
