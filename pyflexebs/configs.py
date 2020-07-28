@@ -60,3 +60,13 @@ class ConfigProxy(Config):
         default="http://10.65.1.6:8080",
         help_string="https proxy",
     )
+
+
+class ConfigControl(Config):
+    """
+    Configure control of the daemon
+    """
+    daemonize = ParamCreator.create_bool(
+        default=False,
+        help_string="Should we daemonize?",
+    )

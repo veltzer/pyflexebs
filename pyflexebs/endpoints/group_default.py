@@ -10,7 +10,6 @@ import bitmath
 import boto3
 import ec2_metadata
 import psutil as psutil
-import pylogconf.core
 from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
@@ -18,7 +17,7 @@ from pytconf import register_endpoint, register_function_group
 
 import pyflexebs
 import pyflexebs.version
-from pyflexebs.configs import ConfigAlgo, ConfigProxy
+from pyflexebs.configs import ConfigAlgo, ConfigProxy, ConfigControl
 
 from pyflexebs.utils import run_with_logger, get_logger, check_root, configure_proxy, check_tools, dump
 
@@ -50,60 +49,65 @@ def version() -> None:
 
 @register_endpoint(
     group=GROUP_NAME_DEFAULT,
-    configs=[ConfigAlgo, ConfigProxy],
+    configs=[ConfigAlgo, ConfigProxy, ConfigControl],
 )
 def daemon_run() -> None:
     """
     Run daemon and monitor disk utilization
     """
-    with daemon.DaemonContext():
-        pylogconf.core.setup_systemd(name="pyflexebs")
-        logger = get_logger()
-        logger.info("starting")
-        configure_proxy()
-        check_tools()
-        check_root()
-        metadata = ec2_metadata.ec2_metadata
-        instance_id = metadata.instance_id
-        ec2_resource = boto3.resource('ec2', region_name=metadata.region)
-        instance = ec2_resource.Instance(instance_id)
-        tags = instance.tags
-        ec2_client = boto3.client('ec2', region_name=metadata.region)
+    if ConfigControl.daemonize:
+        with daemon.DaemonContext():
+            run()
+    else:
+        run()
 
-        volumes = instance.volumes.all()
-        device_to_volume = dict()
-        for volume in volumes:
-            for a in volume.attachments:
-                device = normalize_device(a["Device"])
-                device_to_volume[device] = volume
 
-        while True:
-            logger.info("checking disk utilization")
-            for p in psutil.disk_partitions():
-                if p.mountpoint in ConfigAlgo.disregard:
-                    continue
-                if p.fstype not in ConfigAlgo.file_systems:
-                    continue
-                if TAG_DONT_RESIZE in tags:
-                    continue
-                logger.info("checking {} {} {}".format(
-                    p.device,
-                    p.mountpoint,
-                    p.fstype,
-                ))
-                if ConfigAlgo.watermark_max is not None:
-                    if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
-                        logger.info("max watermark detected at disk {} mountpoint {}".format(
-                            p.device,
-                            p.mountpoint,
-                        ))
-                        logger.info("percent is {}, total is {}, used is {}".format(
-                            psutil.disk_usage(p.mountpoint).percent,
-                            psutil.disk_usage(p.mountpoint).total,
-                            psutil.disk_usage(p.mountpoint).used,
-                        ))
-                        enlarge_volume(p, device_to_volume, ec2_client)
-            time.sleep(ConfigAlgo.interval)
+def run():
+    # pylogconf.core.setup_systemd(name="pyflexebs")
+    logger = get_logger()
+    logger.info("starting")
+    configure_proxy()
+    check_tools()
+    check_root()
+    metadata = ec2_metadata.ec2_metadata
+    instance_id = metadata.instance_id
+    ec2_resource = boto3.resource('ec2', region_name=metadata.region)
+    instance = ec2_resource.Instance(instance_id)
+    tags = instance.tags
+    ec2_client = boto3.client('ec2', region_name=metadata.region)
+    volumes = instance.volumes.all()
+    device_to_volume = dict()
+    for volume in volumes:
+        for a in volume.attachments:
+            device = normalize_device(a["Device"])
+            device_to_volume[device] = volume
+    while True:
+        logger.info("checking disk utilization")
+        for p in psutil.disk_partitions():
+            if p.mountpoint in ConfigAlgo.disregard:
+                continue
+            if p.fstype not in ConfigAlgo.file_systems:
+                continue
+            if TAG_DONT_RESIZE in tags:
+                continue
+            logger.info("checking {} {} {}".format(
+                p.device,
+                p.mountpoint,
+                p.fstype,
+            ))
+            if ConfigAlgo.watermark_max is not None:
+                if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
+                    logger.info("max watermark detected at disk {} mountpoint {}".format(
+                        p.device,
+                        p.mountpoint,
+                    ))
+                    logger.info("percent is {}, total is {}, used is {}".format(
+                        psutil.disk_usage(p.mountpoint).percent,
+                        psutil.disk_usage(p.mountpoint).total,
+                        psutil.disk_usage(p.mountpoint).used,
+                    ))
+                    enlarge_volume(p, device_to_volume, ec2_client)
+        time.sleep(ConfigAlgo.interval)
 
 
 def normalize_device(dev: str) -> str:
