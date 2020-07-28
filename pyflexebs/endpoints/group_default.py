@@ -65,6 +65,7 @@ def daemon_run() -> None:
 
 def run():
     if ConfigControl.configure_logging_syslog:
+        pylogconf.core.remove_all_root_handlers()
         pylogconf.core.setup_syslog(name=pyflexebs.LOGGER_NAME, level=pyflexebs.LOG_LEVEL)
     logger = get_logger()
     logger.info("starting")
