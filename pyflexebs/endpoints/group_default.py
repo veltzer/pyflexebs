@@ -279,7 +279,7 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart={}
+ExecStart={} daemon_run
 
 [Install]
 WantedBy=multi-user.target
