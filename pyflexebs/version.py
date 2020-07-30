@@ -1,2 +1,2 @@
 """ version which can be consumed from within the module """
-VERSION_STR = "0.0.70"
+VERSION_STR = "0.0.71"

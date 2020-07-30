@@ -9,7 +9,7 @@ def get_readme():
 setuptools.setup(
     # the first three fields are a must according to the documentation
     name="pyflexebs",
-    version="0.0.70",
+    version="0.0.71",
     packages=[
         'pyflexebs',
         'pyflexebs.endpoints',
