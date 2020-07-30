@@ -22,7 +22,7 @@ def main():
     """
     pylogconf.core.setup(level=LOG_LEVEL)
     register_all_groups()
-    config_arg_parse_and_launch()
+    config_arg_parse_and_launch(app_name="pyflexebs")
 
 
 if __name__ == '__main__':
