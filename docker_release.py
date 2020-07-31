@@ -2,17 +2,11 @@
 
 import subprocess
 import config.version
+import os
+from pyapikey import get_key
 
-# subprocess.check_call([
-#    "hub",
-#    "release",
-#    "create",
-#    "-a",
-#    "dist/pyflexebs-{}".format(config.version.version_str),
-#    "-m",
-#    "version {}".format(config.version.version_str),
-#    config.version.version_str,
-# ])
+key = get_key("github")
+os.environ["GITHUB_TOKEN"] = key
 
 subprocess.check_call([
     "git",

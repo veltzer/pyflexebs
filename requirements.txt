@@ -17,6 +17,7 @@ pypitools
 pydmt
 Sphinx
 pyinstaller
+pyapikey
 # test requirements
 pylint
 pytest
