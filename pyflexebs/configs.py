@@ -18,6 +18,10 @@ class ConfigAlgo(Config):
         default=70,
         help_string="max watermark for disk utilization",
     )
+    volume_max_size = ParamCreator.create_int(
+        default=2000,
+        help_string="Maximum disk size beyond which never extend",
+    )
     # watermark_min = ParamCreator.create_int_or_none(
     #    default=None,
     #    help_string="min watermark for disk utilization",

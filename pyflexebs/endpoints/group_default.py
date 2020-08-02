@@ -136,8 +136,8 @@ def enlarge_volume(p, device_to_volume, ec2):
     is_lvm = subprocess.check_output("lvs | grep {} | wc -l".format(p.mountpoint[1:]), shell=True).decode().rstrip()
 
     if is_lvm != "0":
-        device = subprocess.check_output("pvs | grep `lvs | grep user  | awk '{print $2}'` | awk '{print $1}'",
-                                         shell=True).decode().rstrip()
+        cmd = "pvs | grep `lvs | grep {}  | awk '{{print $2}}'` | awk '{{print $1}}' | tail -1".format(p.mountpoint[1:])
+        device = subprocess.check_output(cmd, shell=True).decode().rstrip()
         device = normalize_device(device)
     else:
         device = p.device
@@ -151,12 +151,20 @@ def enlarge_volume(p, device_to_volume, ec2):
     # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
     logger.info("total is [{}]".format(size(volume_size)))
+    if int(bitmath.Byte(volume_size).to_GB()) > ConfigAlgo.volume_max_size:
+        logger.info("Skipping... the device: {} is: {} and the configuration for maximum volume size is: {}".format(
+            device, int(bitmath.Byte(volume_size).to_GB()), ConfigAlgo.volume_max_size))
+        return
     volume_size_float = float(volume_size)
     volume_size_float /= 100
     # volume_size_float *= (100+ConfigAlgo.increase_percent)
     # new_size = int(volume_size_float)
     volume_size_float *= ConfigAlgo.increase_percent
     volume_size_int = int(volume_size_float)
+
+    if int(bitmath.Byte(volume_size_float).to_GB()) > ConfigAlgo.increase_max_gb:
+        volume_size_int = ConfigAlgo.increase_max_gb
+
     new_size = volume_size + volume_size_int
     if volume.size < new_size:
         logger.info("trying to increase size to [{}]".format(size(new_size)))
@@ -174,7 +182,6 @@ def enlarge_volume(p, device_to_volume, ec2):
     # resize the file system
     logger.info("doing [{}] extension".format(p.fstype))
     if is_lvm != "0":
-        volume_size_int = bitmath.Byte(volume_size_int).to_MB(),
         if not ConfigAlgo.dryrun:
             run_with_logger([
                 "blockdev",
@@ -187,8 +194,8 @@ def enlarge_volume(p, device_to_volume, ec2):
             ], logger=logger)
             run_with_logger([
                 "lvextend",
-                "-L",
-                "+{}M".format(volume_size_int),
+                "-l",
+                "+95%FREE",
                 p.device,
             ], logger=logger)
 
