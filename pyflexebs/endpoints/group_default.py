@@ -396,6 +396,9 @@ def service_stop() -> None:
     configs=[],
 )
 def write_config_json_user() -> None:
+    """
+    Write user configuration file
+    """
     write_config_file_json_user()
 
 
@@ -404,6 +407,9 @@ def write_config_json_user() -> None:
     configs=[],
 )
 def write_config_json_system() -> None:
+    """
+    Write system configuration file
+    """
     write_config_file_json_system()
 
 
@@ -412,6 +418,9 @@ def write_config_json_system() -> None:
     configs=[],
 )
 def rm_config_json_user() -> None:
+    """
+    Remove user configuration file
+    """
     rm_config_file_json_user()
 
 
@@ -420,4 +429,7 @@ def rm_config_json_user() -> None:
     configs=[],
 )
 def rm_config_json_system() -> None:
+    """
+    Remove system configuration file
+    """
     rm_config_file_json_system()
