@@ -53,15 +53,15 @@ class ConfigProxy(Config):
     Configure proxy settings for the daemon
     """
     no_proxy = ParamCreator.create_str_or_none(
-        default="localhost,.amdocs.com,169.254.169.254",
+        default="localhost,169.254.169.254",
         help_string="what addresses to exempt from proxy",
     )
     http_proxy = ParamCreator.create_str_or_none(
-        default="http://10.65.1.6:8080",
+        default=None,
         help_string="http proxy",
     )
     https_proxy = ParamCreator.create_str_or_none(
-        default="http://10.65.1.6:8080",
+        default=None,
         help_string="https proxy",
     )
 
