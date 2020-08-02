@@ -85,6 +85,16 @@ or
     $ sudo systemctl stop pyflexebs.service
 
 
+# How to configure the service
+
+After installing the service you will get a config file called ***/etc/pyflexebs.json***.
+This is the configuration file for the service. Any change in parameters in this file
+will effect the ***next*** run. Edit this to your hearts content. If you don't know what
+a specific parameter means just use:
+
+    $ ./pyflexebs-[version] daemon_run --help
+
+
 # Reducing AWS EBS Volumes
 
 Assuming we want to reduce EBS, the first thing we will need to do is to make a note of the root volume’s block device name and our instance’s availability zone
