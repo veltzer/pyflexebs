@@ -62,4 +62,14 @@ or
     $ sudo systemctl stop pyflexebs.service
 
 
+# How to configure the service
+
+After installing the service you will get a config file called ***/etc/pyflexebs.json***.
+This is the configuration file for the service. Any change in parameters in this file
+will effect the ***next*** run. Edit this to your hearts content. If you don't know what
+a specific parameter means just use:
+
+    $ ./pyflexebs-[version] daemon_run --help
+
+
 <%include file="../snipplets/reduce.md.mako" />
