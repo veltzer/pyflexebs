@@ -14,7 +14,8 @@ import pylogconf.core
 from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
-from pytconf import register_endpoint, register_function_group
+from pytconf import register_endpoint, register_function_group, write_config_file_json_user, \
+    write_config_file_json_system, rm_config_file_json_system, rm_config_file_json_user
 
 import pyflexebs
 import pyflexebs.version
@@ -327,6 +328,7 @@ def service_install() -> None:
             "start",
             SERVICE_NAME,
         ])
+    write_config_file_json_system()
 
 
 @register_endpoint(
@@ -356,6 +358,7 @@ def service_uninstall() -> None:
         "systemctl",
         "daemon-reload",
     ])
+    rm_config_file_json_system()
 
 
 @register_endpoint(
@@ -386,3 +389,35 @@ def service_stop() -> None:
         "stop",
         SERVICE_NAME,
     ])
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+    configs=[],
+)
+def write_config_json_user() -> None:
+    write_config_file_json_user()
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+    configs=[],
+)
+def write_config_json_system() -> None:
+    write_config_file_json_system()
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+    configs=[],
+)
+def rm_config_json_user() -> None:
+    rm_config_file_json_user()
+
+
+@register_endpoint(
+    group=GROUP_NAME_DEFAULT,
+    configs=[],
+)
+def rm_config_json_system() -> None:
+    rm_config_file_json_system()
