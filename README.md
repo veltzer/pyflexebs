@@ -95,6 +95,14 @@ a specific parameter means just use:
     $ ./pyflexebs-[version] daemon_run --help
 
 
+Remember to configure proxy information if you need it. It can be configured in the config
+file in the following lines:
+
+    "no_proxy": "localhost,169.254.169.254",
+    "http_proxy": null,
+    "https_proxy": null,
+
+
 # Reducing AWS EBS Volumes
 
 Assuming we want to reduce EBS, the first thing we will need to do is to make a note of the root volume’s block device name and our instance’s availability zone
