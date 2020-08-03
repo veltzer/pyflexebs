@@ -12,6 +12,6 @@ project website: https://veltzer.github.io/pyflexebs
 
 author: Mark Veltzer
 
-version: 0.0.80
+version: 0.0.81
 
 
