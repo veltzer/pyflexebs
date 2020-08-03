@@ -36,6 +36,8 @@ dev_requires = [
     'Sphinx',  # for the sphinx builder
     'pyinstaller',  # for creating a single executable
     'pyapikey',  # for getting github key
+    'PyGithub',  # for github API
+    'gitpython',  # for git API
 ]
 
 install_requires = list(setup_requires)

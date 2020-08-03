@@ -18,6 +18,8 @@ pydmt
 Sphinx
 pyinstaller
 pyapikey
+PyGithub
+gitpython
 # test requirements
 pylint
 pytest
