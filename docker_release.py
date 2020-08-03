@@ -17,13 +17,19 @@ url = urls_list[0]
 repo_name = url.split("/")[1][:-4]
 sha = repository.head.object.hexsha
 
-print(sha)
-# repository.create_tag(tag)
-# repository.remotes.origin.push(tag)
+repository.create_tag(tag)
+repository.remotes.origin.push(tag)
 
 key = get_key("github")
 g = github.Github(key)
 repo = g.get_user().get_repo(repo_name)
+release = repo.create_git_release(
+    tag=tag,
+    name=tag,
+    message=tag,
+    target_commitish=sha,
+)
+"""
 release = repo.create_git_tag_and_release(
     tag=tag,
     tag_message=tag_message,
@@ -32,6 +38,7 @@ release = repo.create_git_tag_and_release(
     object=sha,
     type="commit",
 )
+"""
 release.upload_asset(
     path=asset_path,
     label=asset_name,
