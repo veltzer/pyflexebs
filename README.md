@@ -17,9 +17,12 @@
 ![Downloads](https://pepy.tech/badge/pyflexebs/week)
 
 
+
 pyflexebs will allow you to monitor and expand/contract you ebs in aws
 
 project website: <https://veltzer.github.io/pyflexebs>
+
+chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
 # How to create a package this code?
 
