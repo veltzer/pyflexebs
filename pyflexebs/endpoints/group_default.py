@@ -9,7 +9,7 @@ import time
 import bitmath
 import boto3
 import ec2_metadata
-import psutil as psutil
+import psutil
 import pylogconf.core
 from daemon import daemon
 from hurry.filesize import size
@@ -175,10 +175,11 @@ def enlarge_volume(p, device_to_volume, ec2):
                 VolumeId=volume_id,
                 Size=int(bitmath.Byte(new_size).to_GB()),
             )
-            logger.debug("Success in increasing size [{}]".format(result))
+            logger.debug(f"Success in increasing size [{result}]")
             logger.info("Success in increasing size")
+        # pylint: disable=broad-except
         except Exception as e:
-            logger.info("Failure in increasing size [{}]".format(e))
+            logger.info(f"Failure in increasing size [{e}]")
     # resize the file system
     logger.info("doing [{}] extension".format(p.fstype))
     if is_lvm != "0":

@@ -145,7 +145,10 @@ disable=\
 	C0116,
 	C0115,
 	R1702,
-	C0330
+	C0330,
+	too-many-branches,
+	logging-format-interpolation,
+	logging-fstring-interpolation
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

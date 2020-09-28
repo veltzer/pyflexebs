@@ -15,14 +15,14 @@ def register_all_groups():
     register_group_default()
 
 
-@register_main()
+@register_main(app_name="pyflexebs")
 def main():
     """
     pyflexebs will enlarge/reduce your ebs volumes in real time
     """
     pylogconf.core.setup(level=LOG_LEVEL)
     register_all_groups()
-    config_arg_parse_and_launch(app_name="pyflexebs")
+    config_arg_parse_and_launch()
 
 
 if __name__ == '__main__':
