@@ -16,6 +16,8 @@
 ![Downloads](https://pepy.tech/badge/pyflexebs/month)
 ![Downloads](https://pepy.tech/badge/pyflexebs/week)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/veltzer/pyflexebs/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/veltzer/pyflexebs?targetFile=requirements.txt)
+
 
 
 pyflexebs will allow you to monitor and expand/contract you ebs in aws

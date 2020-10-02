@@ -146,7 +146,13 @@ disable=\
 	C0115,
 	R1702,
 	C0330,
+	fixme,
+	too-few-public-methods,
+	too-many-arguments,
+	no-self-use,
 	too-many-branches,
+	too-many-public-methods,
+	too-many-instance-attributes,
 	logging-format-interpolation,
 	logging-fstring-interpolation
 
