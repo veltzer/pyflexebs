@@ -19,10 +19,13 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/veltzer/pyflexebs/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/veltzer/pyflexebs?targetFile=requirements.txt)
 
 
+Actions
+
+![build](https://github.com/veltzer/pyflexebs/workflows/build/badge.svg)
 
 pyflexebs will allow you to monitor and expand/contract you ebs in aws
 
-project website: <https://veltzer.github.io/pyflexebs>
+project website: https://veltzer.github.io/pyflexebs
 
 chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
