@@ -55,7 +55,7 @@ def run():
     instance_id = metadata.instance_id
     ec2_resource = boto3.resource('ec2', region_name=metadata.region)
     instance = ec2_resource.Instance(instance_id)
-    tags = instance.tags
+    # tags = instance.tags
     ec2_client = boto3.client('ec2', region_name=metadata.region)
     volumes = instance.volumes.all()
     device_to_volume = dict()
@@ -72,9 +72,9 @@ def run():
             if p.fstype not in ConfigAlgo.file_systems:
                 logger.info(f"disregard: {p.fstype} not in {ConfigAlgo.file_systems}")
                 continue
-            if TAG_DONT_RESIZE in tags:
-                logger.info(f"disregard: {TAG_DONT_RESIZE} in {tags}")
-                continue
+            # if TAG_DONT_RESIZE in tags:
+            #     logger.info(f"disregard: {TAG_DONT_RESIZE} in {tags}")
+            #     continue
             logger.info(f"checking {p.device} {p.mountpoint} {p.fstype}")
             if ConfigAlgo.watermark_max is not None:
                 if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
