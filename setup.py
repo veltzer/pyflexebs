@@ -12,7 +12,6 @@ setuptools.setup(
     version="0.0.82",
     packages=[
         'pyflexebs',
-        'pyflexebs.endpoints',
     ],
     # from here all is optional
     description="pyflexebs will allow you to monitor and expand/contract you ebs in aws",
@@ -63,7 +62,7 @@ setuptools.setup(
     data_files=[
     ],
     entry_points={"console_scripts": [
-        'pyflexebs=pyflexebs.endpoints.main:main',
+        'pyflexebs=pyflexebs.main:main',
     ]},
     python_requires=">=3.6",
 )

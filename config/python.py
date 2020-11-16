@@ -3,7 +3,7 @@ import config.project
 package_name = config.project.project_name
 
 console_scripts = [
-    'pyflexebs=pyflexebs.endpoints.main:main',
+    'pyflexebs=pyflexebs.main:main',
 ]
 
 setup_requires = [
@@ -26,7 +26,10 @@ run_requires = [
 test_requires = [
     'pylint',  # to check for lint errors
     'pytest',  # for testing
+    'pytest-cov',  # for testing
     'pyflakes',  # for testing
+    'flake8',  # for testing
+    'pymakehelper',  # for the makefile
 ]
 
 dev_requires = [

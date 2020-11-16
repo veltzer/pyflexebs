@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['pyflexebs/endpoints/main.py'],
+a = Analysis(['pyflexebs/main.py'],
              pathex=['.'],
              binaries=[],
              datas=[],

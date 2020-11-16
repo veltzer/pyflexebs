@@ -1,5 +1,5 @@
 """
-All configurations for pyflexebs
+All configurations
 """
 
 

@@ -1,6 +1,3 @@
-"""
-The default group of operations that pyflexebs has
-"""
 import os
 import subprocess
 import sys
@@ -14,49 +11,24 @@ import pylogconf.core
 from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
-from pytconf import register_endpoint, register_function_group, write_config_file_json_user, \
-    write_config_file_json_system, rm_config_file_json_system, rm_config_file_json_user
+from pytconf import register_endpoint, write_config_file_json_user, \
+    write_config_file_json_system, rm_config_file_json_system, rm_config_file_json_user, register_main, \
+    config_arg_parse_and_launch
 
 import pyflexebs
-import pyflexebs.version
 from pyflexebs.configs import ConfigAlgo, ConfigProxy, ConfigControl
+from pyflexebs.static import VERSION_STR
 
 from pyflexebs.utils import run_with_logger, get_logger, check_root, configure_proxy, check_tools, dump
-
-GROUP_NAME_DEFAULT = "default"
-GROUP_DESCRIPTION_DEFAULT = "all pyflexebs commands"
 
 TAG_DONT_RESIZE = "dont_resize"
 
 
-def register_group_default():
-    """
-    register the name and description of this group
-    """
-    register_function_group(
-        function_group_name=GROUP_NAME_DEFAULT,
-        function_group_description=GROUP_DESCRIPTION_DEFAULT,
-    )
-
-
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
-)
-def version() -> None:
-    """
-    Print version
-    """
-    print(pyflexebs.version.VERSION_STR)
-
-
-@register_endpoint(
-    group=GROUP_NAME_DEFAULT,
+    description="Run daemon and monitor disk utilization",
     configs=[ConfigAlgo, ConfigProxy, ConfigControl],
 )
 def daemon_run() -> None:
-    """
-    Run daemon and monitor disk utilization
-    """
     if ConfigControl.daemonize:
         with daemon.DaemonContext():
             run()
@@ -216,13 +188,10 @@ def enlarge_volume(p, device_to_volume, ec2):
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
+    description="Show volume information",
     configs=[ConfigAlgo, ConfigProxy],
 )
 def show_volumes() -> None:
-    """
-    Show volume information
-    """
     logger = get_logger()
     configure_proxy()
     metadata = ec2_metadata.ec2_metadata
@@ -243,23 +212,17 @@ def show_volumes() -> None:
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
+    description="Create a pylogconf configuration file",
 )
 def create_pylogconf() -> None:
-    """
-    create a pylogconf configuration file
-    """
     create_pylogconf_file()
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
+    description="Show policies that are configured for your role",
     configs=[ConfigProxy],
 )
 def show_policies() -> None:
-    """
-    Show policies that are configured for your role
-    """
     logger = get_logger()
     configure_proxy()
     metadata = ec2_metadata.ec2_metadata
@@ -304,13 +267,10 @@ WantedBy=multi-user.target
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
+    description="Install the service on the current machine",
     configs=[ConfigControl],
 )
 def service_install() -> None:
-    """
-    Install the service on the current machine
-    """
     check_root()
     assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
     assert not os.path.isfile(UNIT_FILE), "you already have the service installed"
@@ -340,13 +300,10 @@ def service_install() -> None:
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
+    description="Uninstall the service from the current machine",
     configs=[ConfigControl],
 )
 def service_uninstall() -> None:
-    """
-    Uninstall the service from the current machine
-    """
     check_root()
     assert os.path.isdir(SYSTEMD_FOLDER), "systemd folder does not exist. What kind of linux is this?"
     assert os.path.isfile(UNIT_FILE), "you dont have the service installed"
@@ -370,7 +327,6 @@ def service_uninstall() -> None:
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
 )
 def service_start() -> None:
     """
@@ -385,12 +341,9 @@ def service_start() -> None:
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
+    description="Stop the service",
 )
 def service_stop() -> None:
-    """
-    Stop the service
-    """
     check_root()
     subprocess.check_call([
         "systemctl",
@@ -400,44 +353,42 @@ def service_stop() -> None:
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
-    configs=[],
+    description="Write user configuration file",
 )
 def write_config_json_user() -> None:
-    """
-    Write user configuration file
-    """
     write_config_file_json_user()
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
-    configs=[],
+    description="Write system configuration file",
 )
 def write_config_json_system() -> None:
-    """
-    Write system configuration file
-    """
     write_config_file_json_system()
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
-    configs=[],
+    description="Remove user configuration file",
 )
 def rm_config_json_user() -> None:
-    """
-    Remove user configuration file
-    """
     rm_config_file_json_user()
 
 
 @register_endpoint(
-    group=GROUP_NAME_DEFAULT,
-    configs=[],
+    description="Remove system configuration file",
 )
 def rm_config_json_system() -> None:
-    """
-    Remove system configuration file
-    """
     rm_config_file_json_system()
+
+
+@register_main(
+    main_description="pyflexebs will enlarge/reduce your ebs volumes in real time",
+    app_name="pyflexebs",
+    version=VERSION_STR,
+)
+def main():
+    pylogconf.core.setup(level=pyflexebs.LOG_LEVEL)
+    config_arg_parse_and_launch()
+
+
+if __name__ == '__main__':
+    main()

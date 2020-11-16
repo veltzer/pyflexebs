@@ -23,4 +23,7 @@ gitpython
 # test requirements
 pylint
 pytest
+pytest-cov
 pyflakes
+flake8
+pymakehelper
