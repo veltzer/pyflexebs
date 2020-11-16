@@ -67,22 +67,18 @@ def run():
         logger.info("checking disk utilization")
         for p in psutil.disk_partitions():
             if p.mountpoint in ConfigAlgo.disregard:
+                logger.info(f"disregard: {p.mountpoint} in {ConfigAlgo.disregard}")
                 continue
             if p.fstype not in ConfigAlgo.file_systems:
+                logger.info(f"disregard: {p.fstype} not in {ConfigAlgo.file_systems}")
                 continue
             if TAG_DONT_RESIZE in tags:
+                logger.info(f"disregard: {TAG_DONT_RESIZE} in {tags}")
                 continue
-            logger.info("checking {} {} {}".format(
-                p.device,
-                p.mountpoint,
-                p.fstype,
-            ))
+            logger.info(f"checking {p.device} {p.mountpoint} {p.fstype}")
             if ConfigAlgo.watermark_max is not None:
                 if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
-                    logger.info("max watermark detected at disk {} mountpoint {}".format(
-                        p.device,
-                        p.mountpoint,
-                    ))
+                    logger.info(f"max watermark detected at disk {p.device} mountpoint {p.mountpoint}")
                     logger.info("percent is {}, total is {}, used is {}".format(
                         psutil.disk_usage(p.mountpoint).percent,
                         psutil.disk_usage(p.mountpoint).total,
