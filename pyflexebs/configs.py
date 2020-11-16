@@ -27,11 +27,11 @@ class ConfigAlgo(Config):
     #    help_string="min watermark for disk utilization",
     # )
     disregard = ParamCreator.create_list_str(
-        default="/",
+        default=["/"],
         help_string="what mount points to disregard",
     )
     file_systems = ParamCreator.create_list_str(
-        default="ext4,xfs",
+        default=["ext4","xfs"],
         help_string="what file systems to check",
     )
     increase_percent = ParamCreator.create_int(
