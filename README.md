@@ -12,11 +12,6 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pyflexebs)
 
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
-![Downloads](https://pepy.tech/badge/pyflexebs)
-![Downloads](https://pepy.tech/badge/pyflexebs/month)
-![Downloads](https://pepy.tech/badge/pyflexebs/week)
-
-[![Known Vulnerabilities](https://snyk.io/test/github/veltzer/pyflexebs/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/veltzer/pyflexebs?targetFile=requirements.txt)
 
 
 Actions
