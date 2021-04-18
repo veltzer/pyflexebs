@@ -6,6 +6,8 @@ import config.version
 import config.project
 from pyapikey import get_key
 
+# TODO: use the tag_message!!!
+
 name = config.project.project_name
 asset_path = "dist/{}-{}".format(
     name,
