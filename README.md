@@ -14,7 +14,6 @@
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
 ![build](https://github.com/veltzer/pyflexebs/workflows/build/badge.svg)
-
 pyflexebs will allow you to monitor and expand/contract you ebs in aws
 
 project website: https://veltzer.github.io/pyflexebs
