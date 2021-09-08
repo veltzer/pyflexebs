@@ -58,7 +58,7 @@ def run():
     # tags = instance.tags
     ec2_client = boto3.client('ec2', region_name=metadata.region)
     volumes = instance.volumes.all()
-    device_to_volume = dict()
+    device_to_volume = {}
     for volume in volumes:
         for a in volume.attachments:
             device = normalize_device(a["Device"])
