@@ -323,6 +323,7 @@ def service_uninstall() -> None:
 
 
 @register_endpoint(
+    description="Start the service",
 )
 def service_start() -> None:
     """
