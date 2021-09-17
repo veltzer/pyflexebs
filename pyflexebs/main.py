@@ -99,27 +99,28 @@ def normalize_device(dev: str) -> str:
 
 def enlarge_volume(p, device_to_volume, ec2):
     logger = get_logger()
-    is_lvm = subprocess.check_output("lvs | grep {} | wc -l".format(p.mountpoint[1:]), shell=True).decode().rstrip()
+    is_lvm = subprocess.check_output(f"lvs | grep {p.mountpoint[1:]} | wc -l", shell=True).decode().rstrip()
 
     if is_lvm != "0":
-        cmd = "pvs | grep `lvs | grep {}  | awk '{{print $2}}'` | awk '{{print $1}}' | tail -1".format(p.mountpoint[1:])
+        cmd = f"pvs | grep `lvs | grep {p.mountpoint[1:]}  | awk '{{print $2}}'` | awk '{{print $1}}' | tail -1"
         device = subprocess.check_output(cmd, shell=True).decode().rstrip()
         device = normalize_device(device)
     else:
         device = p.device
 
     if device not in device_to_volume:
-        logger.error("Cannot find device [{}]. Not resizing".format(device))
+        logger.error(f"Cannot find device [{device}]. Not resizing")
         return
 
     volume = device_to_volume[device]
     volume_id = volume.id
     # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
-    logger.info("total is [{}]".format(size(volume_size)))
+    logger.info(f"total is [{size(volume_size)}]")
     if int(bitmath.Byte(volume_size).to_GB()) > ConfigAlgo.volume_max_size:
-        logger.info("Skipping... the device: {} is: {} and the configuration for maximum volume size is: {}".format(
-            device, int(bitmath.Byte(volume_size).to_GB()), ConfigAlgo.volume_max_size))
+        logger.info(f"Skipping... device: {device}")
+        logger.info(f"device size is {int(bitmath.Byte(volume_size).to_GB())}")
+        logger.info(f"the configuration for maximum volume size is: {ConfigAlgo.volume_max_size}")
         return
     volume_size_float = float(volume_size)
     volume_size_float /= 100
@@ -133,7 +134,7 @@ def enlarge_volume(p, device_to_volume, ec2):
 
     new_size = volume_size + volume_size_int
     if volume.size < new_size:
-        logger.info("trying to increase size to [{}]".format(size(new_size)))
+        logger.info(f"trying to increase size to [{size(new_size)}]")
         # noinspection PyBroadException
         try:
             result = ec2.modify_volume(
@@ -147,7 +148,7 @@ def enlarge_volume(p, device_to_volume, ec2):
         except Exception as e:
             logger.info(f"Failure in increasing size [{e}]")
     # resize the file system
-    logger.info("doing [{}] extension".format(p.fstype))
+    logger.info(f"doing [{p.fstype}] extension")
     if is_lvm != "0":
         if not ConfigAlgo.dryrun:
             run_with_logger([
@@ -199,7 +200,7 @@ def show_volumes() -> None:
     session = boto3.session.Session(region_name=metadata.region)
     ec2 = session.resource('ec2')
     instance = ec2.Instance(instance_id)
-    logger.info("instance is [{}]".format(instance_id))
+    logger.info(f"instance is [{instance_id}]")
     volumes = instance.volumes.all()
     for v in volumes:
         dump(v)
@@ -226,24 +227,24 @@ def show_policies() -> None:
         logger.error("No IAM role attached to instance. Please fix instance configuration.")
         return
     logger.info("Found iam_info, good...")
-    logger.info("found [{}]".format(metadata.iam_info))
+    logger.info(f"found [{metadata.iam_info}]")
     instance_profile_arn = metadata.iam_info["InstanceProfileArn"]
-    logger.info("instance_profile_arn [{}]".format(instance_profile_arn))
+    logger.info(f"instance_profile_arn [{instance_profile_arn}]")
     name = instance_profile_arn.split("/")[1]
-    logger.info("name [{}]".format(name))
+    logger.info(f"name [{name}]")
     session = boto3.session.Session(region_name=metadata.region)
     iam = session.client('iam')
     policy_list = iam.list_attached_role_policies(RoleName=name)
     for policy in policy_list["AttachedPolicies"]:
         policy_name = policy["PolicyName"]
         policy_arn = policy["PolicyArn"]
-        logger.info("policy_name: [{}]".format(policy_name))
-        logger.info("policy_arn: [{}]".format(policy_arn))
+        logger.info(f"policy_name: [{policy_name}]")
+        logger.info(f"policy_arn: [{policy_arn}]")
 
 
 SYSTEMD_FOLDER = "/lib/systemd/system"
 SERVICE_NAME = "pyflexebs.service"
-UNIT_FILE = "/lib/systemd/system/{}".format(SERVICE_NAME)
+UNIT_FILE = f"/lib/systemd/system/{SERVICE_NAME}"
 
 CONTENT = """[Unit]
 Description=pyflexebs service
