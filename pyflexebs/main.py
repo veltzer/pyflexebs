@@ -79,11 +79,9 @@ def run():
             if ConfigAlgo.watermark_max is not None:
                 if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
                     logger.info(f"max watermark detected at disk {p.device} mountpoint {p.mountpoint}")
-                    logger.info("percent is {}, total is {}, used is {}".format(
-                        psutil.disk_usage(p.mountpoint).percent,
-                        psutil.disk_usage(p.mountpoint).total,
-                        psutil.disk_usage(p.mountpoint).used,
-                    ))
+                    logger.info(f"percent is {psutil.disk_usage(p.mountpoint).percent}")
+                    logger.info(f"total is {psutil.disk_usage(p.mountpoint).total}")
+                    logger.info(f"used is {psutil.disk_usage(p.mountpoint).used}")
                     enlarge_volume(p, device_to_volume, ec2_client)
         time.sleep(ConfigAlgo.interval)
 
@@ -95,7 +93,7 @@ def normalize_device(dev: str) -> str:
     last_part = dev.split("/")[2]
     if last_part.startswith("sd"):
         drive = last_part[2:]
-        return "/dev/xvd{}".format(drive)
+        return f"/dev/xvd{drive}"
     return dev
 
 

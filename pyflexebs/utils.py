@@ -13,14 +13,14 @@ def run_with_logger(args, logger):
     """
     Execute the external command and get its exitcode, stdout and stderr.
     """
-    logger.info("running [{}]".format(",".join(args)))
+    logger.info(f"running [{','.join(args)}]")
     with Popen(args, stdout=PIPE, stderr=PIPE) as proc:
         out, err = proc.communicate()
         exitcode = proc.returncode
     if exitcode != 0:
-        logger.error("error in execution with code [{}]".format(exitcode))
-        logger.debug("stdout was [{}]".format(out.decode()))
-        logger.debug("stderr was [{}]".format(err.decode()))
+        logger.error(f"error in execution with code [{exitcode}]")
+        logger.debug(f"stdout was [{out.decode()}]")
+        logger.debug(f"stderr was [{err.decode()}]")
     else:
         logger.info("execution was successful")
 
@@ -55,7 +55,7 @@ def check_tools():
     for app in ["xfs_growfs", "resize2fs"]:
         if pypathutil.common.find_in_standard_path(app) is None:
             problems = True
-            logger.error("please install executable [{}]".format(app))
+            logger.error(f"please install executable [{app}]")
     if problems:
         sys.exit(1)
 
@@ -67,4 +67,4 @@ def dump(obj):
     for attr in dir(obj):
         if attr.startswith("__"):
             continue
-        print("obj.%s = %r" % (attr, getattr(obj, attr)))
+        print(f"obj.{attr} = {getattr(obj, attr)}")
