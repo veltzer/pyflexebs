@@ -3,51 +3,42 @@ import config.project
 package_name = config.project.project_name
 
 console_scripts = [
-    'pyflexebs=pyflexebs.main:main',
-]
-
-setup_requires = [
+    "pyflexebs=pyflexebs.main:main",
 ]
 
 run_requires = [
-    'pytconf',
-    'pylogconf',
-    'psutil',
-    'boto3',
-    'boto3-stubs',
-    'pyfakeuse',
-    'ec2-metadata',
-    'pypathutil',
-    'hurry.filesize',
-    'bitmath',
-    'python-daemon',
+    "pytconf",
+    "pylogconf",
+    "psutil",
+    "boto3",
+    "boto3-stubs",
+    "pyfakeuse",
+    "ec2-metadata",
+    "pypathutil",
+    "hurry.filesize",
+    "bitmath",
+    "python-daemon",
 ]
 
 test_requires = [
-    'pylint',
-    'pytest',
-    'pytest-cov',
-    'pyflakes',
-    'flake8',
-    'pymakehelper',
+    "pylint",
+    "pytest",
+    "pytest-cov",
+    "pyflakes",
+    "flake8",
+    "pymakehelper",
 ]
 
 dev_requires = [
-    'pyclassifiers',
-    'pypitools',
-    'pydmt',
-    'Sphinx',
-    'pyinstaller',
-    'pyapikey',
-    'PyGithub',
-    'gitpython',
+    "pyclassifiers",
+    "pypitools",
+    "pydmt",
+    "Sphinx",
+    "pyinstaller",
+    "pyapikey",
+    "PyGithub",
+    "gitpython",
 ]
-
-install_requires = list(setup_requires)
-install_requires.extend(run_requires)
-
-extras_require = {
-}
 
 python_requires = ">=3.9"
 test_os = ["ubuntu-20.04"]
