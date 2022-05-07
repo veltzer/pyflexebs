@@ -31,21 +31,6 @@ setuptools.setup(
     platforms=[
         'python3',
     ],
-    install_requires=[
-        'pytconf',
-        'pylogconf',
-        'psutil',
-        'boto3',
-        'boto3-stubs',
-        'pyfakeuse',
-        'ec2-metadata',
-        'pypathutil',
-        'hurry.filesize',
-        'bitmath',
-        'python-daemon',
-    ],
-    extras_require={
-    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
