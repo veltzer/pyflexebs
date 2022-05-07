@@ -6,7 +6,7 @@ console_scripts = [
     "pyflexebs=pyflexebs.main:main",
 ]
 
-run_requires = [
+install_requires = [
     "pytconf",
     "pylogconf",
     "psutil",
