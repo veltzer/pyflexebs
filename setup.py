@@ -31,6 +31,19 @@ setuptools.setup(
     platforms=[
         'python3',
     ],
+    install_requires=[
+        'pytconf',
+        'pylogconf',
+        'psutil',
+        'boto3',
+        'boto3-stubs',
+        'pyfakeuse',
+        'ec2-metadata',
+        'pypathutil',
+        'hurry.filesize',
+        'bitmath',
+        'python-daemon',
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
@@ -47,5 +60,5 @@ setuptools.setup(
     entry_points={"console_scripts": [
         'pyflexebs=pyflexebs.main:main',
     ]},
-    python_requires=">=3.9",
+    python_requires=">=3.10",
 )
