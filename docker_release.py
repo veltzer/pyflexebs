@@ -5,20 +5,17 @@ import git
 import config.version
 import config.project
 from pyapikey import get_key
+from pydmt.helpers.project import get_name
+from pydmt.helpers.misc import get_version_str
 
 # TODO: use the tag_message!!!
 
-name = config.project.project_name
-asset_path = "dist/{}-{}".format(
-    name,
-    config.version.version_str,
-)
-asset_name = "{}-{}".format(
-    name,
-    config.version.version_str,
-)
-tag = config.version.version_str
-tag_message = "version {}".format(config.version.version_str)
+name = get_name()
+version_str = get_version_str()
+asset_path = f"dist/{name}-{version_str}"
+asset_name = f"{name}-{version_str}"
+tag = version_str
+tag_message = f"version {version_str}"
 
 repository = git.Repo()
 urls_list = list(repository.remotes.origin.urls)

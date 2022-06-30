@@ -5,7 +5,9 @@ import tempfile
 import shutil
 import os
 import config.version
+from pydmt.helpers.misc import get_version_str
 
+version_str = get_version_str()
 dir_path = tempfile.mkdtemp()
 orig_path = os.getcwd()
 tar_file = os.path.join(dir_path, "current.tar.gz")
@@ -39,12 +41,8 @@ container_id = subprocess.check_output([
 subprocess.check_call([
     "docker",
     "cp",
-    "{}:/home/user/pyflexebs/dist/pyflexebs".format(
-        container_id,
-    ),
-    "dist/pyflexebs-{}".format(
-        config.version.version_str,
-    ),
+    f"{container_id}:/home/user/pyflexebs/dist/pyflexebs",
+    f"dist/pyflexebs-{version_str}"
 ])
 subprocess.check_call([
     "docker",
