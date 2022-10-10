@@ -2,10 +2,7 @@ console_scripts = [
     "pyflexebs=pyflexebs.main:main",
 ]
 dev_requires = [
-    "pyclassifiers",
     "pypitools",
-    "pydmt",
-    "Sphinx",
     "pyinstaller",
     "pyapikey",
     "PyGithub",
@@ -14,6 +11,8 @@ dev_requires = [
 make_requires = [
     "pymakehelper",
     "pydmt",
+    "pyclassifiers",
+    "Sphinx",
 ]
 install_requires = [
     "pytconf",

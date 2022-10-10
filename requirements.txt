@@ -12,10 +12,7 @@ hurry.filesize
 bitmath
 python-daemon
 # dev requirements
-pyclassifiers
 pypitools
-pydmt
-Sphinx
 pyinstaller
 pyapikey
 PyGithub
@@ -26,5 +23,4 @@ pytest
 pytest-cov
 pyflakes
 flake8
-pymakehelper
 mypy
