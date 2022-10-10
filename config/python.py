@@ -11,6 +11,10 @@ dev_requires = [
     "PyGithub",
     "gitpython",
 ]
+make_requires = [
+    "pymakehelper",
+    "pydmt",
+]
 install_requires = [
     "pytconf",
     "pylogconf",
@@ -30,6 +34,5 @@ test_requires = [
     "pytest-cov",
     "pyflakes",
     "flake8",
-    "pymakehelper",
     "mypy",
 ]
