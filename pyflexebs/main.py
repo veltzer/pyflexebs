@@ -17,7 +17,7 @@ from pytconf import register_endpoint, write_config_file,\
 
 import pyflexebs
 from pyflexebs.configs import ConfigAlgo, ConfigProxy, ConfigControl
-from pyflexebs.static import VERSION_STR
+from pyflexebs.static import VERSION_STR, APP_NAME, DESCRIPTION
 
 from pyflexebs.utils import run_with_logger, get_logger, check_root, configure_proxy, check_tools, dump
 
@@ -377,8 +377,8 @@ def rm_config_json_system() -> None:
 
 
 @register_main(
-    main_description="pyflexebs will enlarge/reduce your ebs volumes in real time",
-    app_name="pyflexebs",
+    main_description=DESCRIPTION,
+    app_name=APP_NAME,
     version=VERSION_STR,
 )
 def main():

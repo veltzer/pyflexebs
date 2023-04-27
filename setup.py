@@ -9,12 +9,12 @@ def get_readme():
 setuptools.setup(
     # the first three fields are a must according to the documentation
     name="pyflexebs",
-    version="0.0.86",
+    version="0.0.87",
     packages=[
         "pyflexebs",
     ],
     # from here all is optional
-    description="pyflexebs will allow you to monitor and expand/contract you ebs in aws",
+    description="Pyflexebs will allow you to monitor and expand/contract you EBS volumes in aws",
     long_description=get_readme(),
     long_description_content_type="text/x-rst",
     author="Mark Veltzer",

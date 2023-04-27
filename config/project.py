@@ -1,4 +1,4 @@
-description_short = "pyflexebs will allow you to monitor and expand/contract you ebs in aws"
+description_short = "Pyflexebs will allow you to monitor and expand/contract you EBS volumes in aws"
 keywords = [
     "aws",
     "ebs",

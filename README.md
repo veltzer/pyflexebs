@@ -1,12 +1,12 @@
 # *pyflexebs* project by Mark Veltzer
 
-description: pyflexebs will allow you to monitor and expand/contract you ebs in aws
+description: Pyflexebs will allow you to monitor and expand/contract you EBS volumes in aws
 
 project website: https://veltzer.github.io/pyflexebs
 
 author: Mark Veltzer
 
-version: 0.0.86
+version: 0.0.87
 
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
