@@ -6,13 +6,13 @@ project website: https://veltzer.github.io/pyflexebs
 
 author: Mark Veltzer
 
-version: 0.0.87
+version: 0.0.88
 
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
 ## github
 
-![License](https://img.shields.io/github/license/veltzer/pytconf)
+![License](https://img.shields.io/github/license/veltzer/pyflexebs)
 
 ## build
 

@@ -2,14 +2,14 @@ import setuptools
 
 
 def get_readme():
-    with open('README.rst') as f:
+    with open("README.rst") as f:
         return f.read()
 
 
 setuptools.setup(
     # the first three fields are a must according to the documentation
     name="pyflexebs",
-    version="0.0.87",
+    version="0.0.88",
     packages=[
         "pyflexebs",
     ],
