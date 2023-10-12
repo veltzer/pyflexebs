@@ -12,7 +12,7 @@ from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
 from pytconf.config import ConfigType, ConfigFormat, get_pytconf
-from pytconf import register_endpoint, write_config_file,\
+from pytconf import register_endpoint, write_config,\
     register_main, rm_config_file, config_arg_parse_and_launch
 
 import pyflexebs
@@ -291,7 +291,7 @@ def service_install() -> None:
             "start",
             SERVICE_NAME,
         ])
-    write_config_file(config_type=ConfigType.SYSTEM, config_format=ConfigFormat.JSON)
+    write_config(config_type=ConfigType.SYSTEM, config_format=ConfigFormat.JSON)
 
 
 @register_endpoint(
@@ -352,14 +352,14 @@ def service_stop() -> None:
     description="Write user configuration file",
 )
 def write_config_json_user() -> None:
-    write_config_file(config_type=ConfigType.USER, config_format=ConfigFormat.JSON)
+    write_config(config_type=ConfigType.USER, config_format=ConfigFormat.JSON)
 
 
 @register_endpoint(
     description="Write system configuration file",
 )
 def write_config_json_system() -> None:
-    write_config_file(config_type=ConfigType.SYSTEM, config_format=ConfigFormat.JSON)
+    write_config(config_type=ConfigType.SYSTEM, config_format=ConfigFormat.JSON)
 
 
 @register_endpoint(
