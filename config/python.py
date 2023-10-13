@@ -12,6 +12,7 @@ make_requires = [
     "pymakehelper",
     "pydmt",
     "pyclassifiers",
+    "types-psutil",
 ]
 install_requires = [
     "pytconf",
