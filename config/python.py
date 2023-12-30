@@ -1,18 +1,16 @@
-console_scripts = [
+from typing import List
+
+
+console_scripts: List[str] = [
     "pyflexebs=pyflexebs.main:main",
 ]
-dev_requires = [
+config_requires: List[str] = []
+dev_requires: List[str] = [
     "pypitools",
     "pyinstaller",
     "pyapikey",
     "PyGithub",
     "gitpython",
-]
-make_requires = [
-    "pymakehelper",
-    "pydmt",
-    "pyclassifiers",
-    "types-psutil",
 ]
 install_requires = [
     "pytconf",
@@ -27,6 +25,12 @@ install_requires = [
     "bitmath",
     "python-daemon",
 ]
+make_requires = [
+    "pymakehelper",
+    "pydmt",
+    "pyclassifiers",
+    "types-psutil",
+]
 test_requires = [
     "pylint",
     "pytest",
@@ -35,3 +39,4 @@ test_requires = [
     "flake8",
     "mypy",
 ]
+requires = config_requires + install_requires + make_requires + test_requires
