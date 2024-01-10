@@ -4,13 +4,15 @@ from typing import List
 console_scripts: List[str] = [
     "pyflexebs=pyflexebs.main:main",
 ]
-config_requires: List[str] = []
 dev_requires: List[str] = [
     "pypitools",
     "pyinstaller",
     "pyapikey",
     "PyGithub",
     "gitpython",
+]
+config_requires: List[str] = [
+    "pyclassifiers",
 ]
 install_requires = [
     "pytconf",
@@ -28,7 +30,6 @@ install_requires = [
 make_requires = [
     "pymakehelper",
     "pydmt",
-    "pyclassifiers",
     "types-psutil",
 ]
 test_requires = [
