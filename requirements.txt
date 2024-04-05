@@ -1,0 +1,22 @@
+# THIS IS AN AUTO-GENERATED FILE. DO NOT EDIT!
+pyclassifiers
+pytconf
+pylogconf
+psutil
+boto3
+boto3-stubs
+pyfakeuse
+ec2-metadata
+pypathutil
+hurry.filesize
+bitmath
+python-daemon
+pymakehelper
+pydmt
+types-psutil
+pylint
+pytest
+pytest-cov
+pyflakes
+flake8
+mypy
