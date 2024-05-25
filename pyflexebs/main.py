@@ -12,7 +12,7 @@ from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
 from pytconf.config import ConfigType, ConfigFormat, get_pytconf
-from pytconf import register_endpoint, write_config,\
+from pytconf import register_endpoint, write_config, \
     register_main, rm_config_file, config_arg_parse_and_launch
 
 import pyflexebs
