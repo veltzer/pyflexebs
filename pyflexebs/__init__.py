@@ -1,3 +1,7 @@
+"""
+Initialize the module
+"""
+
 import logging
 
 LOGGER_NAME = "pyflexebs"
