@@ -1,18 +1,10 @@
-""" python depedencies for this project """
-from typing import List
+""" python deps for this project """
 
-
-console_scripts: List[str] = [
+console_scripts: list[str] = [
     "pyflexebs=pyflexebs.main:main",
 ]
-dev_requires: List[str] = [
-    "pypitools",
-    "pyinstaller",
-    "pyapikey",
-    "PyGithub",
-    "gitpython",
-]
-config_requires: List[str] = [
+
+config_requires: list[str] = [
     "pyclassifiers",
 ]
 install_requires = [
@@ -29,16 +21,20 @@ install_requires = [
     "python-daemon",
 ]
 build_requires = [
-    "pymakehelper",
     "pydmt",
-    "types-psutil",
+    "pymakehelper",
+
+    "pyinstaller",
+    "pyapikey",
+    "PyGithub",
+    "gitpython",
 ]
 test_requires = [
     "pylint",
     "pytest",
     "pytest-cov",
-    "pyflakes",
-    "flake8",
     "mypy",
+    # types
+    "types-psutil",
 ]
 requires = config_requires + install_requires + build_requires + test_requires
