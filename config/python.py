@@ -31,8 +31,8 @@ build_requires = [
 test_requires = [
     "pylint",
     "pytest",
-    "pytest-cov",
     "mypy",
+    "ruff",
     # types
     "types-psutil",
 ]

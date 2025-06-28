@@ -19,6 +19,6 @@ pymakehelper
 pypathutil
 pytconf
 pytest
-pytest-cov
 python-daemon
+ruff
 types-psutil
