@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyflexebs"
+version = "0.0.89"
+requires-python = ">=3.12"
+authors = [
+	{ name = "Mark Veltzer", email = "mark.veltzer@gmail.com" }
+]
+maintainers = [
+	{ name = "Mark Veltzer", email = "mark.veltzer@gmail.com" }
+]
+description = "Pyflexebs will allow you to monitor and expand/contract you EBS volumes in aws"
+readme = "README.md"
+license = "MIT"
+keywords=[
+    "aws",
+    "ebs",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "pytconf",
+    "pylogconf",
+    "psutil",
+    "boto3",
+    "boto3-stubs",
+    "pyfakeuse",
+    "ec2-metadata",
+    "pypathutil",
+    "hurry.filesize",
+    "bitmath",
+    "python-daemon",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/veltzer/pyflexebs"
+"Bug Tracker" = "https://github.com/veltzer/pyflexebs/issues"
+"Documentation" = "https://veltzer.github.io/pyflexebs"
+"Download" = "https://pypi.org/project/pyflexebs/"
+"Repository" = "https://github.com/veltzer/pyflexebs"
+
+[project.scripts]
+pyflexebs = "pyflexebs.main:main"
+
+[tool.ruff]
+line-length = 130
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

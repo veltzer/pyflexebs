@@ -1,9 +1,8 @@
 """ python deps for this project """
 
-console_scripts: list[str] = [
-    "pyflexebs=pyflexebs.main:main",
-]
-
+scripts: dict[str,str] = {
+    "pyflexebs": "pyflexebs.main:main",
+}
 config_requires: list[str] = [
     "pyclassifiers",
 ]
