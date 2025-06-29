@@ -5,11 +5,13 @@ boto3
 boto3-stubs
 ec2-metadata
 gitpython
+hatch
 hurry.filesize
 mypy
 psutil
 pyapikey
 pyclassifiers
+pycmdtools
 pydmt
 pyfakeuse
 pyinstaller

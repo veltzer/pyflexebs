@@ -20,9 +20,11 @@ install_requires = [
     "python-daemon",
 ]
 build_requires = [
+    "hatch",
     "pydmt",
     "pymakehelper",
-
+    "pycmdtools",
+    # modules
     "pyinstaller",
     "pyapikey",
     "PyGithub",
