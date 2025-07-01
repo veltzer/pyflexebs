@@ -1,12 +1,8 @@
 """ python deps for this project """
 
-scripts: dict[str,str] = {
-    "pyflexebs": "pyflexebs.main:main",
-}
-config_requires: list[str] = [
-    "pyclassifiers",
-]
-install_requires = [
+import config.shared
+
+install_requires: list[str] = [
     "pytconf",
     "pylogconf",
     "psutil",
@@ -18,24 +14,18 @@ install_requires = [
     "hurry.filesize",
     "bitmath",
     "python-daemon",
-]
-build_requires = [
-    "hatch",
-    "pydmt",
-    "pymakehelper",
-    "pycmdtools",
-    # modules
     "pyinstaller",
     "pyapikey",
     "PyGithub",
     "gitpython",
 ]
-test_requires = [
-    "pylint",
-    "pytest",
-    "mypy",
-    "ruff",
-    # types
+build_requires: list[str] = config.shared.PBUILD
+test_requires: list[str] = config.shared.PTEST
+types_requires: list[str] = [
     "types-psutil",
 ]
-requires = config_requires + install_requires + build_requires + test_requires
+requires = install_requires + build_requires + test_requires + types_requires
+
+scripts: dict[str,str] = {
+    "pyflexebs": "pyflexebs.main:main",
+}
