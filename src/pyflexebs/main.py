@@ -55,10 +55,10 @@ def run():
         check_root()
     metadata = ec2_metadata.ec2_metadata
     instance_id = metadata.instance_id
-    ec2_resource = boto3.resource('ec2', region_name=metadata.region)
+    ec2_resource = boto3.resource("ec2", region_name=metadata.region)
     instance = ec2_resource.Instance(instance_id)
     # tags = instance.tags
-    ec2_client = boto3.client('ec2', region_name=metadata.region)
+    ec2_client = boto3.client("ec2", region_name=metadata.region)
     volumes = instance.volumes.all()
     device_to_volume = {}
     for volume in volumes:
@@ -104,7 +104,7 @@ def enlarge_volume(p, device_to_volume, ec2):
     is_lvm = subprocess.check_output(f"lvs | grep {p.mountpoint[1:]} | wc -l", shell=True).decode().rstrip()
 
     if is_lvm != "0":
-        cmd = f"pvs | grep `lvs | grep {p.mountpoint[1:]}  | awk '{{print $2}}'` | awk '{{print $1}}' | tail -1"
+        cmd = f"pvs | grep `lvs | grep {p.mountpoint[1:]}  | awk \"{{print $2}}\"` | awk \"{{print $1}}\" | tail -1"
         device = subprocess.check_output(cmd, shell=True).decode().rstrip()
         device = normalize_device(device)
     else:
@@ -200,7 +200,7 @@ def show_volumes() -> None:
     logger.info("Found iam_info, good...")
     instance_id = metadata.instance_id
     session = boto3.session.Session(region_name=metadata.region)
-    ec2 = session.resource('ec2')
+    ec2 = session.resource("ec2")
     instance = ec2.Instance(instance_id)
     logger.info(f"instance is [{instance_id}]")
     volumes = instance.volumes.all()
@@ -235,7 +235,7 @@ def show_policies() -> None:
     name = instance_profile_arn.split("/")[1]
     logger.info(f"name [{name}]")
     session = boto3.session.Session(region_name=metadata.region)
-    iam = session.client('iam')
+    iam = session.client("iam")
     policy_list = iam.list_attached_role_policies(RoleName=name)
     for policy in policy_list["AttachedPolicies"]:
         policy_name = policy["PolicyName"]
@@ -275,7 +275,7 @@ def service_install() -> None:
     if not os.path.isabs(abs_path_to_program):
         abs_path_to_program = os.path.join(os.getcwd(), abs_path_to_program)
     prev_mask = os.umask(0o000)
-    with os.fdopen(os.open(UNIT_FILE, os.O_WRONLY | os.O_CREAT, 0o644), 'wt') as f:
+    with os.fdopen(os.open(UNIT_FILE, os.O_WRONLY | os.O_CREAT, 0o644), "wt") as f:
         f.write(CONTENT.format(abs_path_to_program))
     os.umask(prev_mask)
     subprocess.check_call([
@@ -388,5 +388,5 @@ def main():
     config_arg_parse_and_launch()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

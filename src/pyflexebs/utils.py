@@ -15,7 +15,8 @@ def run_with_logger(args, logger):
     """
     Execute the external command and get its exitcode, stdout and stderr.
     """
-    logger.info(f"running [{','.join(args)}]")
+    all_args = ",".join(args)
+    logger.info(f"running [{all_args}]")
     with Popen(args, stdout=PIPE, stderr=PIPE) as proc:
         out, err = proc.communicate()
         exitcode = proc.returncode
@@ -33,19 +34,19 @@ def get_logger():
 
 def check_root():
     if not os.geteuid() == 0:
-        sys.exit('Script must be run as root')
+        sys.exit("Script must be run as root")
 
 
 def configure_proxy():
     if ConfigProxy.http_proxy is not None:
-        os.environ['http_proxy'] = ConfigProxy.http_proxy
-        os.environ['HTTP_PROXY'] = ConfigProxy.http_proxy
+        os.environ["http_proxy"] = ConfigProxy.http_proxy
+        os.environ["HTTP_PROXY"] = ConfigProxy.http_proxy
     if ConfigProxy.https_proxy is not None:
-        os.environ['https_proxy'] = ConfigProxy.https_proxy
-        os.environ['HTTPS_PROXY'] = ConfigProxy.https_proxy
+        os.environ["https_proxy"] = ConfigProxy.https_proxy
+        os.environ["HTTPS_PROXY"] = ConfigProxy.https_proxy
     if ConfigProxy.no_proxy is not None:
-        os.environ['no_proxy'] = ConfigProxy.no_proxy
-        os.environ['NO_PROXY'] = ConfigProxy.no_proxy
+        os.environ["no_proxy"] = ConfigProxy.no_proxy
+        os.environ["NO_PROXY"] = ConfigProxy.no_proxy
 
 
 def check_tools():
