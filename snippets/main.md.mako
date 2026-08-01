@@ -80,4 +80,4 @@ file in the following lines:
     "https_proxy": null,
 
 
-<%include file="../snipplets/reduce.md.mako" />
+<%include file="../snippets/reduce.md.mako" />
