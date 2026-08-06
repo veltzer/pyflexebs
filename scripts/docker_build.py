@@ -1,10 +1,10 @@
 #!/usr/bin/env python
+"""Build docker image for pyflexebs."""
 
 import subprocess
 import tempfile
 import shutil
 import os
-import config.version
 from pydmt.helpers.misc import get_version_str
 
 version_str = get_version_str()

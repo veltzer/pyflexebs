@@ -16,6 +16,7 @@ pip = [
     "pytconf",
     "pylogconf",
     "psutil",
+    "types-psutil",
     "boto3",
     "boto3-stubs",
     "pyfakeuse",

@@ -1,9 +1,8 @@
 #!/usr/bin/env python
+"""Release docker image for pyflexebs."""
 
 import github
 import git
-import config.version
-import config.project
 from pyapikey import get_key
 from pydmt.helpers.project import get_name
 from pydmt.helpers.misc import get_version_str
