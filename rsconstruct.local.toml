@@ -29,4 +29,5 @@ pip = [
     "pyapikey",
     "PyGithub",
     "gitpython",
+    "pydmt",
 ]
