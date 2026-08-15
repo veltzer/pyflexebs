@@ -3,7 +3,7 @@
 import logging
 import os
 import sys
-from subprocess import Popen, PIPE
+from subprocess import PIPE, Popen
 
 import pypathutil.common
 
@@ -33,7 +33,7 @@ def get_logger():
 
 
 def check_root():
-    if not os.geteuid() == 0:
+    if os.geteuid() != 0:
         sys.exit("Script must be run as root")
 
 

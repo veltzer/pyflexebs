@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 """Release docker image for pyflexebs."""
 
-import github
 import git
+import github
 from pyapikey import get_key
-from pydmt.helpers.project import get_name
 from pydmt.helpers.misc import get_version_str
+from pydmt.helpers.project import get_name
 
 # TODO: use the tag_message!!!
 

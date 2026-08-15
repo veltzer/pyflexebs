@@ -13,15 +13,13 @@ import pylogconf.core
 from daemon import daemon
 from hurry.filesize import size
 from pylogconf.core import create_pylogconf_file
-from pytconf.config import ConfigType, ConfigFormat, get_pytconf
-from pytconf import register_endpoint, write_config, \
-    register_main, rm_config_file, config_arg_parse_and_launch
+from pytconf import config_arg_parse_and_launch, register_endpoint, register_main, rm_config_file, write_config
+from pytconf.config import ConfigFormat, ConfigType, get_pytconf
 
 import pyflexebs
-from pyflexebs.configs import ConfigAlgo, ConfigProxy, ConfigControl
-from pyflexebs.static import VERSION_STR, APP_NAME, DESCRIPTION
-
-from pyflexebs.utils import run_with_logger, get_logger, check_root, configure_proxy, check_tools, dump
+from pyflexebs.configs import ConfigAlgo, ConfigControl, ConfigProxy
+from pyflexebs.static import APP_NAME, DESCRIPTION, VERSION_STR
+from pyflexebs.utils import check_root, check_tools, configure_proxy, dump, get_logger, run_with_logger
 
 TAG_DONT_RESIZE = "dont_resize"
 
@@ -78,13 +76,13 @@ def run():
             #     logger.info(f"disregard: {TAG_DONT_RESIZE} in {tags}")
             #     continue
             logger.info(f"checking {p.device} {p.mountpoint} {p.fstype}")
-            if ConfigAlgo.watermark_max is not None:
-                if psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
-                    logger.info(f"max watermark detected at disk {p.device} mountpoint {p.mountpoint}")
-                    logger.info(f"percent is {psutil.disk_usage(p.mountpoint).percent}")
-                    logger.info(f"total is {psutil.disk_usage(p.mountpoint).total}")
-                    logger.info(f"used is {psutil.disk_usage(p.mountpoint).used}")
-                    enlarge_volume(p, device_to_volume, ec2_client)
+            if ConfigAlgo.watermark_max is not None \
+                    and psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
+                logger.info(f"max watermark detected at disk {p.device} mountpoint {p.mountpoint}")
+                logger.info(f"percent is {psutil.disk_usage(p.mountpoint).percent}")
+                logger.info(f"total is {psutil.disk_usage(p.mountpoint).total}")
+                logger.info(f"used is {psutil.disk_usage(p.mountpoint).used}")
+                enlarge_volume(p, device_to_volume, ec2_client)
         time.sleep(ConfigAlgo.interval)
 
 
@@ -147,41 +145,38 @@ def enlarge_volume(p, device_to_volume, ec2):
             logger.debug(f"Success in increasing size [{result}]")
             logger.info("Success in increasing size")
         # pylint: disable=broad-except
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - best-effort resize, keep going
             logger.info(f"Failure in increasing size [{e}]")
     # resize the file system
     logger.info(f"doing [{p.fstype}] extension")
-    if is_lvm != "0":
-        if not ConfigAlgo.dryrun:
-            run_with_logger([
-                "blockdev",
-                "--rereadpt",
-                device,
-            ], logger=logger)
-            run_with_logger([
-                "pvresize",
-                device,
-            ], logger=logger)
-            run_with_logger([
-                "lvextend",
-                "-l",
-                "+95%FREE",
-                p.device,
-            ], logger=logger)
+    if is_lvm != "0" and not ConfigAlgo.dryrun:
+        run_with_logger([
+            "blockdev",
+            "--rereadpt",
+            device,
+        ], logger=logger)
+        run_with_logger([
+            "pvresize",
+            device,
+        ], logger=logger)
+        run_with_logger([
+            "lvextend",
+            "-l",
+            "+95%FREE",
+            p.device,
+        ], logger=logger)
 
-    if p.fstype == "ext4":
-        if not ConfigAlgo.dryrun:
-            run_with_logger([
-                "resize2fs",
-                p.device,
-            ], logger=logger)
-    if p.fstype == "xfs":
-        if not ConfigAlgo.dryrun:
-            run_with_logger([
-                "xfs_growfs",
-                "-d",
-                p.mountpoint,
-            ], logger=logger)
+    if p.fstype == "ext4" and not ConfigAlgo.dryrun:
+        run_with_logger([
+            "resize2fs",
+            p.device,
+        ], logger=logger)
+    if p.fstype == "xfs" and not ConfigAlgo.dryrun:
+        run_with_logger([
+            "xfs_growfs",
+            "-d",
+            p.mountpoint,
+        ], logger=logger)
 
 
 @register_endpoint(
