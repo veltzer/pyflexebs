@@ -35,6 +35,7 @@ version: {{ version_str(path="config/version.lua") }}
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/{{ project.NAME }})
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/{{ project.NAME }})
 
+{% include "tera.snippets/main.md.tera" %}
 ## contact me
 
 [mailto](mailto:{{ personal.EMAIL }})
