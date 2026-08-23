@@ -4,3 +4,4 @@ KEYWORDS = {
     "aws",
     "ebs",
 }
+PYPI = true
