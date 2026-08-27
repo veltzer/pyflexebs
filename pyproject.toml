@@ -93,3 +93,9 @@ installer = "uv"
 
 [tool.uv.pip]
 prerelease = "disallow"
+
+[dependency-groups]
+dev = [
+    "types-psutil",
+    "pydmt",
+]
