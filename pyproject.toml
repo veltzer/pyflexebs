@@ -35,7 +35,6 @@ dependencies = [
     "pylogconf",
     "psutil",
     "boto3",
-    "boto3-stubs",
     "pyfakeuse",
     "ec2-metadata",
     "pypathutil",
@@ -115,6 +114,7 @@ prerelease = "disallow"
 
 [dependency-groups]
 dev = [
+    "boto3-stubs",
     "types-psutil",
     "pydmt",
 ]

@@ -604,7 +604,6 @@ source = { editable = "." }
 dependencies = [
     { name = "bitmath" },
     { name = "boto3" },
-    { name = "boto3-stubs" },
     { name = "ec2-metadata" },
     { name = "gitpython" },
     { name = "hurry-filesize" },
@@ -621,6 +620,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "boto3-stubs" },
     { name = "pydmt" },
     { name = "types-psutil" },
 ]
@@ -629,7 +629,6 @@ dev = [
 requires-dist = [
     { name = "bitmath" },
     { name = "boto3" },
-    { name = "boto3-stubs" },
     { name = "ec2-metadata" },
     { name = "gitpython" },
     { name = "hurry-filesize" },
@@ -646,6 +645,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "boto3-stubs" },
     { name = "pydmt" },
     { name = "types-psutil" },
 ]
