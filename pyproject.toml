@@ -114,6 +114,10 @@ prerelease = "disallow"
 
 [dependency-groups]
 dev = [
+    "mypy",
+    "pylint",
+    "pytest",
+    "ruff",
     "boto3-stubs",
     "types-psutil",
     "pydmt",
