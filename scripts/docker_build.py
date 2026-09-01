@@ -5,10 +5,10 @@ import os
 import shutil
 import subprocess
 import tempfile
+import tomllib
 
-from pydmt.helpers.misc import get_version_str
-
-version_str = get_version_str()
+with open("pyproject.toml", "rb") as f:
+    version_str = tomllib.load(f)["project"]["version"]
 dir_path = tempfile.mkdtemp()
 orig_path = os.getcwd()
 tar_file = os.path.join(dir_path, "current.tar.gz")

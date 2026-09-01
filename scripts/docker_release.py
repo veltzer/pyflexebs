@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 """Release docker image for pyflexebs."""
 
+import tomllib
+
 import git
 import github
 from pyapikey import get_key
-from pydmt.helpers.misc import get_version_str
-from pydmt.helpers.project import get_name
 
 # TODO: use the tag_message!!!
 
-name = get_name()
-version_str = get_version_str()
+with open("pyproject.toml", "rb") as f:
+    project = tomllib.load(f)["project"]
+name = project["name"]
+version_str = project["version"]
 asset_path = f"dist/{name}-{version_str}"
 asset_name = f"{name}-{version_str}"
 tag = version_str

@@ -100,7 +100,6 @@ module = [
     "hurry.filesize.*",
     "psutil.*",
     "pyapikey.*",
-    "pydmt.*",
     "pylogconf.*",
     "pypathutil.*",
     "pytconf.*",
@@ -120,5 +119,4 @@ dev = [
     "ruff",
     "boto3-stubs",
     "types-psutil",
-    "pydmt",
 ]
