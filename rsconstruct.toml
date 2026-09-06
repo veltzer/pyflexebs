@@ -36,7 +36,6 @@ src_dirs = ["tests"]
 
 [processor.shellcheck]
 src_dirs = ["scripts", "src", "config"]
-args = ["--severity=error", "--shell=bash"]
 
 # ─── lua ─────────────────────────────────────────────────────────────────────
 
@@ -51,3 +50,18 @@ src_dirs = ["."]
 # lint the GitHub Actions workflow files with actionlint
 [processor.actionlint]
 src_dirs = [".github/workflows"]
+
+# ─── markdown ────────────────────────────────────────────────────────────────
+
+[processor.rumdl]
+src_files = ["README.md"]
+
+# ─── yaml ────────────────────────────────────────────────────────────────────
+
+[processor.yamllint]
+src_files = [".jenkins-scanner.yml"]
+
+# ─── docker ──────────────────────────────────────────────────────────────────
+
+[processor.hadolint]
+src_files = ["Dockerfile"]
