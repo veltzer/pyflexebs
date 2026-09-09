@@ -3,7 +3,7 @@
      values that template reads, and build again. -->
 # *pyflexebs* project by Mark Veltzer
 
-description: Pyflexebs will allow you to monitor and expand/contract you EBS volumes in aws
+description: Pyflexebs will allow you to monitor and expand/contract your EBS volumes in aws
 
 project website: https://veltzer.github.io/pyflexebs
 
