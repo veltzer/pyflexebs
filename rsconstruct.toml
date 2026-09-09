@@ -74,8 +74,8 @@ src_files = ["README.md"]
 # ─── yaml ────────────────────────────────────────────────────────────────────
 
 [processor.yamllint]
-src_files = [".jenkins-scanner.yml"]
-
+src_files = [".jenkins-scanner.yml", ".hadolint.yaml"]
+src_dirs = [".github"]
 # ─── docker ──────────────────────────────────────────────────────────────────
 
 [processor.hadolint]
