@@ -120,4 +120,5 @@ dev = [
     "ruff",
     "sphinx",
     "types-psutil",
+    "yamllint",
 ]
