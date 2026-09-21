@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:26.04
 # upgrade the system
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_PRIORITY=critical

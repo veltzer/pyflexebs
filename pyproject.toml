@@ -115,7 +115,6 @@ prerelease = "disallow"
 dev = [
     "boto3-stubs",
     "mypy",
-    "pylint",
     "pytest",
     "ruff",
     "sphinx",
