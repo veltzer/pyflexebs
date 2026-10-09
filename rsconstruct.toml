@@ -80,5 +80,5 @@ src_files = [".jenkins-scanner.yml", ".hadolint.yaml"]
 src_dirs = [".github"]
 # ─── docker ──────────────────────────────────────────────────────────────────
 
-[processor.checker.hadolint]
+[processor.checker.idockerfile]
 src_files = ["Dockerfile"]
