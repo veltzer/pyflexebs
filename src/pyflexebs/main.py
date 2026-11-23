@@ -1,5 +1,6 @@
 """ main.py """
 
+import logging
 import os
 import subprocess
 import sys
@@ -41,7 +42,7 @@ def run():
         pylogconf.core.remove_all_root_handlers()
         pylogconf.core.setup_syslog(
             name=pyflexebs.LOGGER_NAME,
-            level=ConfigControl.loglevel,
+            level=logging.getLevelNamesMapping()[ConfigControl.loglevel.upper()],
         )
     logger = get_logger()
     logger.info("starting")
