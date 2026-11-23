@@ -8,6 +8,7 @@ import time
 
 import bitmath
 import boto3
+import botocore.exceptions
 import ec2_metadata
 import psutil
 import pylogconf.core
@@ -68,21 +69,21 @@ def run():
         logger.info("checking disk utilization")
         for p in psutil.disk_partitions():
             if p.mountpoint in ConfigAlgo.disregard:
-                logger.info(f"disregard: {p.mountpoint} in {ConfigAlgo.disregard}")
+                logger.info("disregard: %s in %s", p.mountpoint, ConfigAlgo.disregard)
                 continue
             if p.fstype not in ConfigAlgo.file_systems:
-                logger.info(f"disregard: {p.fstype} not in {ConfigAlgo.file_systems}")
+                logger.info("disregard: %s not in %s", p.fstype, ConfigAlgo.file_systems)
                 continue
             # if TAG_DONT_RESIZE in tags:
             #     logger.info(f"disregard: {TAG_DONT_RESIZE} in {tags}")
             #     continue
-            logger.info(f"checking {p.device} {p.mountpoint} {p.fstype}")
+            logger.info("checking %s %s %s", p.device, p.mountpoint, p.fstype)
             if ConfigAlgo.watermark_max is not None \
                     and psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
-                logger.info(f"max watermark detected at disk {p.device} mountpoint {p.mountpoint}")
-                logger.info(f"percent is {psutil.disk_usage(p.mountpoint).percent}")
-                logger.info(f"total is {psutil.disk_usage(p.mountpoint).total}")
-                logger.info(f"used is {psutil.disk_usage(p.mountpoint).used}")
+                logger.info("max watermark detected at disk %s mountpoint %s", p.device, p.mountpoint)
+                logger.info("percent is %s", psutil.disk_usage(p.mountpoint).percent)
+                logger.info("total is %s", psutil.disk_usage(p.mountpoint).total)
+                logger.info("used is %s", psutil.disk_usage(p.mountpoint).used)
                 enlarge_volume(p, device_to_volume, ec2_client)
         time.sleep(ConfigAlgo.interval)
 
@@ -110,18 +111,18 @@ def enlarge_volume(p, device_to_volume, ec2):
         device = p.device
 
     if device not in device_to_volume:
-        logger.error(f"Cannot find device [{device}]. Not resizing")
+        logger.error("Cannot find device [%s]. Not resizing", device)
         return
 
     volume = device_to_volume[device]
     volume_id = volume.id
     # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
-    logger.info(f"total is [{size(volume_size)}]")
+    logger.info("total is [%s]", size(volume_size))
     if int(bitmath.Byte(volume_size).to_GB()) > ConfigAlgo.volume_max_size:
-        logger.info(f"Skipping... device: {device}")
-        logger.info(f"device size is {int(bitmath.Byte(volume_size).to_GB())}")
-        logger.info(f"the configuration for maximum volume size is: {ConfigAlgo.volume_max_size}")
+        logger.info("Skipping... device: %s", device)
+        logger.info("device size is %s", int(bitmath.Byte(volume_size).to_GB()))
+        logger.info("the configuration for maximum volume size is: %s", ConfigAlgo.volume_max_size)
         return
     volume_size_float = float(volume_size)
     volume_size_float /= 100
@@ -135,21 +136,19 @@ def enlarge_volume(p, device_to_volume, ec2):
 
     new_size = volume_size + volume_size_int
     if volume.size < new_size:
-        logger.info(f"trying to increase size to [{size(new_size)}]")
-        # noinspection PyBroadException
+        logger.info("trying to increase size to [%s]", size(new_size))
         try:
             result = ec2.modify_volume(
                 DryRun=ConfigAlgo.dryrun,
                 VolumeId=volume_id,
                 Size=int(bitmath.Byte(new_size).to_GB()),
             )
-            logger.debug(f"Success in increasing size [{result}]")
+            logger.debug("Success in increasing size [%s]", result)
             logger.info("Success in increasing size")
-        # pylint: disable=broad-except
-        except Exception as e:  # noqa: BLE001 - best-effort resize, keep going
-            logger.info(f"Failure in increasing size [{e}]")
+        except (botocore.exceptions.ClientError, botocore.exceptions.BotoCoreError) as e:
+            logger.info("Failure in increasing size [%s]", e)
     # resize the file system
-    logger.info(f"doing [{p.fstype}] extension")
+    logger.info("doing [%s] extension", p.fstype)
     if is_lvm != "0" and not ConfigAlgo.dryrun:
         run_with_logger([
             "blockdev",
@@ -198,7 +197,7 @@ def show_volumes() -> None:
     session = boto3.session.Session(region_name=metadata.region)
     ec2 = session.resource("ec2")
     instance = ec2.Instance(instance_id)
-    logger.info(f"instance is [{instance_id}]")
+    logger.info("instance is [%s]", instance_id)
     volumes = instance.volumes.all()
     for v in volumes:
         dump(v)
@@ -225,19 +224,19 @@ def show_policies() -> None:
         logger.error("No IAM role attached to instance. Please fix instance configuration.")
         return
     logger.info("Found iam_info, good...")
-    logger.info(f"found [{metadata.iam_info}]")
+    logger.info("found [%s]", metadata.iam_info)
     instance_profile_arn = metadata.iam_info["InstanceProfileArn"]
-    logger.info(f"instance_profile_arn [{instance_profile_arn}]")
+    logger.info("instance_profile_arn [%s]", instance_profile_arn)
     name = instance_profile_arn.split("/")[1]
-    logger.info(f"name [{name}]")
+    logger.info("name [%s]", name)
     session = boto3.session.Session(region_name=metadata.region)
     iam = session.client("iam")
     policy_list = iam.list_attached_role_policies(RoleName=name)
     for policy in policy_list["AttachedPolicies"]:
         policy_name = policy["PolicyName"]
         policy_arn = policy["PolicyArn"]
-        logger.info(f"policy_name: [{policy_name}]")
-        logger.info(f"policy_arn: [{policy_arn}]")
+        logger.info("policy_name: [%s]", policy_name)
+        logger.info("policy_arn: [%s]", policy_arn)
 
 
 SYSTEMD_FOLDER = "/lib/systemd/system"

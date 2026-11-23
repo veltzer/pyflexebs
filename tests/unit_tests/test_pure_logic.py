@@ -15,14 +15,14 @@ from pyflexebs.main import normalize_device
 
 class NormalizeDeviceTests(unittest.TestCase):
     def test_rewrites_sd_to_xvd(self) -> None:
-        self.assertEqual(normalize_device("/dev/sdb"), "/dev/xvdb")
+        assert normalize_device("/dev/sdb") == "/dev/xvdb"
 
     def test_rewrites_sd_multichar_suffix(self) -> None:
-        self.assertEqual(normalize_device("/dev/sdaf"), "/dev/xvdaf")
+        assert normalize_device("/dev/sdaf") == "/dev/xvdaf"
 
     def test_leaves_non_sd_unchanged(self) -> None:
-        self.assertEqual(normalize_device("/dev/xvdc"), "/dev/xvdc")
-        self.assertEqual(normalize_device("/dev/nvme0n1"), "/dev/nvme0n1")
+        assert normalize_device("/dev/xvdc") == "/dev/xvdc"
+        assert normalize_device("/dev/nvme0n1") == "/dev/nvme0n1"
 
 
 class ConfigureProxyTests(unittest.TestCase):
@@ -51,12 +51,12 @@ class ConfigureProxyTests(unittest.TestCase):
         ConfigProxy.https_proxy = "http://proxy:3129"
         ConfigProxy.no_proxy = "localhost"
         utils.configure_proxy()
-        self.assertEqual(os.environ["http_proxy"], "http://proxy:3128")
-        self.assertEqual(os.environ["HTTP_PROXY"], "http://proxy:3128")
-        self.assertEqual(os.environ["https_proxy"], "http://proxy:3129")
-        self.assertEqual(os.environ["HTTPS_PROXY"], "http://proxy:3129")
-        self.assertEqual(os.environ["no_proxy"], "localhost")
-        self.assertEqual(os.environ["NO_PROXY"], "localhost")
+        assert os.environ["http_proxy"] == "http://proxy:3128"
+        assert os.environ["HTTP_PROXY"] == "http://proxy:3128"
+        assert os.environ["https_proxy"] == "http://proxy:3129"
+        assert os.environ["HTTPS_PROXY"] == "http://proxy:3129"
+        assert os.environ["no_proxy"] == "localhost"
+        assert os.environ["NO_PROXY"] == "localhost"
 
     def test_leaves_environment_untouched_when_none(self) -> None:
         ConfigProxy.http_proxy = None
@@ -64,7 +64,7 @@ class ConfigureProxyTests(unittest.TestCase):
         ConfigProxy.no_proxy = None
         utils.configure_proxy()
         for k in self._KEYS:
-            self.assertNotIn(k, os.environ)
+            assert k not in os.environ
 
 
 if __name__ == "__main__":

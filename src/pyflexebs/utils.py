@@ -16,14 +16,14 @@ def run_with_logger(args, logger):
     Execute the external command and get its exitcode, stdout and stderr.
     """
     all_args = ",".join(args)
-    logger.info(f"running [{all_args}]")
+    logger.info("running [%s]", all_args)
     with Popen(args, stdout=PIPE, stderr=PIPE) as proc:
         out, err = proc.communicate()
         exitcode = proc.returncode
     if exitcode != 0:
-        logger.error(f"error in execution with code [{exitcode}]")
-        logger.debug(f"stdout was [{out.decode()}]")
-        logger.debug(f"stderr was [{err.decode()}]")
+        logger.error("error in execution with code [%s]", exitcode)
+        logger.debug("stdout was [%s]", out.decode())
+        logger.debug("stderr was [%s]", err.decode())
     else:
         logger.info("execution was successful")
 
@@ -58,7 +58,7 @@ def check_tools():
     for app in ["xfs_growfs", "resize2fs"]:
         if pypathutil.common.find_in_standard_path(app) is None:
             problems = True
-            logger.error(f"please install executable [{app}]")
+            logger.error("please install executable [%s]", app)
     if problems:
         sys.exit(1)
 
