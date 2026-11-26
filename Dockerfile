@@ -12,8 +12,8 @@ RUN useradd -u 1000 -ms /bin/bash user
 USER 1000
 WORKDIR /home/user
 ENV PATH="/home/user/.local/bin:${PATH}"
-RUN pip3 install --no-cache-dir --upgrade --user pip
-RUN pip3 install --no-cache-dir --user pyinstaller
+RUN pip3 install --no-cache-dir --upgrade --user pip \
+	&& pip3 install --no-cache-dir --user pyinstaller
 # now get the code and build it
 ADD current.tar.gz /home/user/pyflexebs
 USER 0
@@ -22,7 +22,7 @@ USER 1000
 # go into the folder
 WORKDIR /home/user/pyflexebs
 # install deps for the code
-RUN pip3 install --no-cache-dir --user .
-RUN pyinstaller pyflexebs.spec
+RUN pip3 install --no-cache-dir --user . \
+	&& pyinstaller pyflexebs.spec
 # if running then run shell
 CMD ["/bin/bash"]
