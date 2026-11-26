@@ -95,19 +95,6 @@ search-path = [
     "scripts",
     ".",
 ]
-# Third-party libraries without type information.
-ignore-missing-imports = [
-    "bitmath.*",
-    "boto3.*",
-    "daemon.*",
-    "github.*",
-    "hurry.filesize.*",
-    "psutil.*",
-    "pyapikey.*",
-    "pylogconf.*",
-    "pypathutil.*",
-    "pytconf.*",
-]
 
 [tool.pyrefly.errors]
 no-any-return = "error"
