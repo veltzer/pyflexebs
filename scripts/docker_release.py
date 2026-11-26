@@ -7,7 +7,7 @@ import git
 import github
 from pyapikey import get_key
 
-# TODO: use the tag_message!!!
+# the tag message is not used yet (doc/TOFIX.md)
 
 with open("pyproject.toml", "rb") as f:
     project = tomllib.load(f)["project"]

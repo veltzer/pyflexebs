@@ -27,3 +27,4 @@ Findings from a code scan on 2026-10-04.
 - `src/pyflexebs/main.py:24` - `TAG_DONT_RESIZE` is unused (its only use is commented out at lines 75-77); implement the tag check or remove the constant and the dead comments.
 - `pyproject.toml:89` - `mypy_path = "src:python:scripts"` names a `python/` directory that does not exist; drop it.
 - `rsconstruct.toml:28` - `ruff`/`mypy` (line 32) list `config` and `shellcheck` (line 40) lists `src` and `config` in `src_dirs`, but those folders contain no files of that type; list only the folders that do.
+- `scripts/docker_release.py` - use the tag message. (was a TODO comment in the code)
