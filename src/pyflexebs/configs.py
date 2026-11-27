@@ -22,10 +22,6 @@ class ConfigAlgo(Config):
         default=2000,
         help_string="Maximum disk size beyond which never extend",
     )
-    # watermark_min = ParamCreator.create_int_or_none(
-    #    default=None,
-    #    help_string="min watermark for disk utilization",
-    # )
     disregard = ParamCreator.create_list_str(
         default=["/"],
         help_string="what mount points to disregard",

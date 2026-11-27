@@ -57,7 +57,6 @@ def run():
     instance_id = metadata.instance_id
     ec2_resource = boto3.resource("ec2", region_name=metadata.region)
     instance = ec2_resource.Instance(instance_id)
-    # tags = instance.tags
     ec2_client = boto3.client("ec2", region_name=metadata.region)
     volumes = instance.volumes.all()
     device_to_volume = {}
@@ -74,9 +73,6 @@ def run():
             if p.fstype not in ConfigAlgo.file_systems:
                 logger.info("disregard: %s not in %s", p.fstype, ConfigAlgo.file_systems)
                 continue
-            # if TAG_DONT_RESIZE in tags:
-            #     logger.info(f"disregard: {TAG_DONT_RESIZE} in {tags}")
-            #     continue
             logger.info("checking %s %s %s", p.device, p.mountpoint, p.fstype)
             if ConfigAlgo.watermark_max is not None \
                     and psutil.disk_usage(p.mountpoint).percent >= ConfigAlgo.watermark_max:
@@ -116,7 +112,6 @@ def enlarge_volume(p, device_to_volume, ec2):
 
     volume = device_to_volume[device]
     volume_id = volume.id
-    # volume_size = volume.size
     volume_size = psutil.disk_usage(p.mountpoint).total
     logger.info("total is [%s]", size(volume_size))
     if int(bitmath.Byte(volume_size).to_GB()) > ConfigAlgo.volume_max_size:
@@ -126,8 +121,6 @@ def enlarge_volume(p, device_to_volume, ec2):
         return
     volume_size_float = float(volume_size)
     volume_size_float /= 100
-    # volume_size_float *= (100+ConfigAlgo.increase_percent)
-    # new_size = int(volume_size_float)
     volume_size_float *= ConfigAlgo.increase_percent
     volume_size_int = int(volume_size_float)
 
