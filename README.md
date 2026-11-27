@@ -110,7 +110,7 @@ file in the following lines:
 
 ## Reducing AWS EBS Volumes
 
-Assuming we want to reduce EBS, the first thing we will need to do is to make a note of the root volume’s block device name and our instance’s availability zone
+Assuming we want to reduce EBS, the first thing we will need to do is to make a note of the root volume's block device name and our instance's availability zone
 
 1. Stop the instance
 ![stop_instance](images/stop_instance.png)
