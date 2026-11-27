@@ -7,6 +7,7 @@ setting the config and inspecting the environment afterwards.
 
 import os
 import unittest
+from typing import override
 
 from pyflexebs import utils
 from pyflexebs.configs import ConfigProxy
@@ -32,12 +33,14 @@ class ConfigureProxyTests(unittest.TestCase):
         "no_proxy", "NO_PROXY",
     )
 
+    @override
     def setUp(self) -> None:
         self._saved_env = {k: os.environ.get(k) for k in self._KEYS}
         self._saved_cfg = (ConfigProxy.http_proxy, ConfigProxy.https_proxy, ConfigProxy.no_proxy)
         for k in self._KEYS:
             os.environ.pop(k, None)
 
+    @override
     def tearDown(self) -> None:
         for k, v in self._saved_env.items():
             if v is None:
