@@ -5,6 +5,7 @@ import os
 import subprocess
 import sys
 import time
+from typing import TYPE_CHECKING, Any
 
 import bitmath
 import boto3
@@ -22,6 +23,9 @@ import pyflexebs
 from pyflexebs.configs import ConfigAlgo, ConfigControl, ConfigProxy
 from pyflexebs.static import APP_NAME, DESCRIPTION, VERSION_STR
 from pyflexebs.utils import check_root, check_tools, configure_proxy, dump, get_logger, run_with_logger
+
+if TYPE_CHECKING:
+    from psutil._ntuples import sdiskpart
 
 TAG_DONT_RESIZE = "dont_resize"
 
@@ -95,7 +99,7 @@ def normalize_device(dev: str) -> str:
     return dev
 
 
-def enlarge_volume(p, device_to_volume, ec2):
+def enlarge_volume(p: sdiskpart, device_to_volume: dict[str, Any], ec2: Any) -> None:
     logger = get_logger()
     is_lvm = subprocess.check_output(f"lvs | grep {p.mountpoint[1:]} | wc -l", shell=True).decode().rstrip()
 
@@ -371,7 +375,7 @@ def rm_config_json_system() -> None:
     app_name=APP_NAME,
     version=VERSION_STR,
 )
-def main():
+def main() -> None:
     pylogconf.core.setup(level=pyflexebs.LOG_LEVEL)
     config_arg_parse_and_launch()
 

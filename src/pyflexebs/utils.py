@@ -3,6 +3,7 @@
 import logging
 import os
 import sys
+from logging import Logger
 from subprocess import PIPE, Popen
 
 import pypathutil.common
@@ -11,7 +12,7 @@ import pyflexebs
 from pyflexebs.configs import ConfigProxy
 
 
-def run_with_logger(args, logger):
+def run_with_logger(args: list[str], logger: logging.Logger) -> None:
     """
     Execute the external command and get its exitcode, stdout and stderr.
     """
@@ -28,16 +29,16 @@ def run_with_logger(args, logger):
         logger.info("execution was successful")
 
 
-def get_logger():
+def get_logger() -> Logger:
     return logging.getLogger(pyflexebs.LOGGER_NAME)
 
 
-def check_root():
+def check_root() -> None:
     if os.geteuid() != 0:
         sys.exit("Script must be run as root")
 
 
-def configure_proxy():
+def configure_proxy() -> None:
     if ConfigProxy.http_proxy is not None:
         os.environ["http_proxy"] = ConfigProxy.http_proxy
         os.environ["HTTP_PROXY"] = ConfigProxy.http_proxy
@@ -49,7 +50,7 @@ def configure_proxy():
         os.environ["NO_PROXY"] = ConfigProxy.no_proxy
 
 
-def check_tools():
+def check_tools() -> None:
     """
     Check that the command line tools we need are available
     """
@@ -63,7 +64,7 @@ def check_tools():
         sys.exit(1)
 
 
-def dump(obj):
+def dump(obj: object) -> None:
     """
     debugging function to dump objects
     """
